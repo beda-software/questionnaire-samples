@@ -1,0 +1,90 @@
+resourceType: Questionnaire
+id: variables
+name: variables
+title: Variables
+description: >-
+  Demonstrates SDC `variable` on a parent group. Child items reuse `%PulseVal`,
+  `%PulseBand`, and `%PulseDouble` in calculated and display expressions.
+status: active
+subjectType:
+  - Patient
+url: "http://example.org/fhir/Questionnaire/variables"
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+item:
+  - linkId: instructions
+    text: >-
+      Instructions: Enter pulse (bpm) >= 1.
+      Summary shows band-specific guidance and doubled value; Result and Doubled
+      mirror %PulseBand and %PulseDouble.
+    type: display
+
+  # Non-repeating group: variables read from sibling items via %resource.repeat(item).where(linkId=...).
+  - linkId: variable-demo-group
+    text: Derived values via parent variables
+    type: group
+    variable:
+      - name: PulseVal
+        language: text/fhirpath
+        expression: "%resource.repeat(item).where(linkId='var-pulse').answer.valueInteger.first()"
+      - name: PulseBand
+        language: text/fhirpath
+        # Avoid `not(...)` — in FHIRPath `not` is a unary operator, not a function; some engines error on not().
+        expression: >-
+          iif(
+            %PulseVal.exists() and %PulseVal >= 1,
+            iif(
+              %PulseVal > 110,
+              'High',
+              iif(%PulseVal < 60, 'Critical low', 'Normal')
+            ),
+            ''
+          )
+      - name: PulseDouble
+        language: text/fhirpath
+        expression: >-
+          iif(%PulseVal.exists() and %PulseVal >= 1, %PulseVal * 2, 0)
+    item:
+      - linkId: var-pulse
+        text: Pulse (bpm)
+        type: integer
+        entryFormat: "Enter a pulse rate (bpm) of 1 or greater"
+
+      - linkId: variables-summary
+        text: Banded guidance
+        type: text
+        calculatedExpression:
+          language: text/fhirpath
+          # Plain text guidance for better cross-renderer compatibility (no markdown and no cqfExpression).
+          expression: >-
+            iif(
+              %PulseVal.exists() and %PulseVal >= 1,
+              iif(
+                %PulseVal > 110,
+                'Elevated pulse. Initiate appropriate clinical care. Inform the midwife / nurse in charge if escalation is required. Doubled value: ' & ((%PulseVal * 2).toString()),
+                iif(
+                  %PulseVal < 60,
+                  'Low pulse. Repeat observations as indicated. Consult promptly with the midwife / nurse in charge to determine if further review is needed. Doubled value: ' & ((%PulseVal * 2).toString()),
+                  'Pulse within range. Continue routine monitoring. Band: Normal. Doubled value: ' & ((%PulseVal * 2).toString()) & '.'
+                )
+              ),
+              'No pulse entered. Enter a pulse (bpm) of 1 or greater to display guidance.'
+            )
+
+      - linkId: band-echo
+        text: Result (PulseBand)
+        type: string
+        readOnly: true
+        calculatedExpression:
+          language: text/fhirpath
+          expression: "%PulseBand"
+
+      - linkId: double-echo
+        text: Doubled (PulseDouble variable)
+        type: string
+        readOnly: true
+        calculatedExpression:
+          language: text/fhirpath
+          # Mirrors group variable PulseDouble (pulse × 2). Using %PulseDouble in concat can error; (%PulseVal * 2) is equivalent.
+          expression: "iif(%PulseVal.exists() and %PulseVal >= 1, (%PulseVal * 2).toString(), '')"

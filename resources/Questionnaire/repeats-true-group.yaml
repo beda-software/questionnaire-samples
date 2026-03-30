@@ -1,0 +1,49 @@
+resourceType: Questionnaire
+id: repeats-true-group
+name: repeats-true-group
+title: Repeats Structure for Group
+description: >-
+  Demonstrates repeatable group structure (`repeats: true`) for procedure rows.
+status: active
+subjectType:
+  - Patient
+url: "http://example.org/fhir/Questionnaire/repeats-true-group"
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+item:
+  - linkId: instructions
+    text: >-
+      Instructions: Add one or more procedure rows and fill date, name, result, and notes.
+    type: display
+      
+  - linkId: procedures
+    text: Procedures
+    type: group
+    repeats: true
+    item:
+      - linkId: procedure-date
+        text: Date
+        type: date
+        entryFormat: Enter the procedure date
+        calculatedExpression:
+          language: text/fhirpath
+          expression: iif(%context.answer.exists(), %context.answer.valueDateTime, now())
+
+      - linkId: procedure-name
+        text: Name
+        type: string
+        entryFormat: Enter the procedure name
+
+      - linkId: procedure-result
+        text: Result
+        type: string
+        entryFormat: Enter the procedure result
+
+      - linkId: procedure-notes
+        text: Notes
+        type: string
+        entryFormat: Enter the procedure notes
+        itemControl:
+          coding:
+            - code: markdown-editor

@@ -1,0 +1,65 @@
+resourceType: Questionnaire
+id: extract-vital-signs
+name: extract-vital-signs
+title: Extract Vital Signs
+description: >-
+  Demonstrates vital-sign extraction for body temperature with hidden derived data used by mapping.
+status: active
+subjectType:
+  - Patient
+url: "http://example.org/fhir/Questionnaire/extract-vital-signs"
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+mapping:
+  - reference: Mapping/extract-vital-signs
+launchContext:
+  - name:
+      code: Patient
+    type:
+      - Patient
+item:
+  - linkId: patientId
+    text: PatientId
+    type: string
+    hidden: true
+    initialExpression:
+      language: text/fhirpath
+      expression: "%Patient.id"
+
+  - linkId: instructions
+    text: >-
+      Instructions: Enter Body temperature and submit the questionnaire.
+      The mapping creates an Observation (LOINC 8310-5, vital-signs category).
+      Hidden calculated field temp-severity-hidden is included for extraction/mapping use.
+    type: display
+
+  - linkId: body-temperature
+    text: Body temperature
+    type: quantity
+    required: true
+    unitOption:
+      - code: Cel
+        system: http://unitsofmeasure.org
+        display: C
+    code:
+      - system: http://loinc.org
+        code: "8310-5"
+        display: Body temperature
+
+  - linkId: temp-severity-hidden
+    text: Temperature severity (hidden)
+    type: string
+    hidden: true
+    calculatedExpression:
+      language: text/fhirpath
+      expression: >-
+        iif(
+          %resource.repeat(item).where(linkId='body-temperature').answer.valueQuantity.value.exists(),
+          iif(
+            %resource.repeat(item).where(linkId='body-temperature').answer.valueQuantity.value.first() >= 38,
+            'fever',
+            'normal'
+          ),
+          ''
+        )

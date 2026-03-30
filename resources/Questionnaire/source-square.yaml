@@ -1,0 +1,77 @@
+resourceType: Questionnaire
+id: source-square
+name: source-square
+title: Source Square
+description: >-
+  Demonstrates `sourceQueries` with a contained batch Bundle and rendering fetched Condition data
+  into a read-only summary field.
+status: active
+subjectType:
+  - Patient
+url: "http://example.org/fhir/Questionnaire/source-square"
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+launchContext:
+  - name:
+      code: Patient
+    type:
+      - Patient
+sourceQueries:
+  - reference: "#ConditionBundle"
+contained:
+  - resourceType: Bundle
+    id: ConditionBundle
+    type: batch
+    entry:
+      - request:
+          method: GET
+          # _sort: newest recordedDate first. _count: avoid silent truncation on busy patients.
+          url: /Condition?patient=Patient/{{ %Patient.id }}&_sort=-recorded-date&_count=200
+item:
+  - linkId: patientId
+    text: PatientId
+    type: string
+    hidden: true
+    initialExpression:
+      language: text/fhirpath
+      expression: "%Patient.id"
+
+  - linkId: instructions
+    text: >-
+      Instructions: This form shows the source square pattern.
+      The conditions are displayed in the Conditions field.
+    type: display
+
+  - linkId: conditions-summary
+    text: Conditions
+    type: text
+    readOnly: true
+    initialExpression:
+      language: text/fhirpath
+      expression: >-
+        %ConditionBundle.entry.resource.entry.resource
+        .select(
+          'Name: ' &
+          iif(
+            code.coding.first().display.exists(),
+            code.coding.first().display,
+            iif(
+              code.text.exists(),
+              code.text,
+              code.coding.code.first()
+            )
+          ) &
+          '\n' &
+          'Data: ' &
+          iif(
+            recordedDate.exists(),
+            recordedDate.toString(),
+            iif(
+              onsetDateTime.exists(),
+              onsetDateTime.toString(),
+              ''
+            )
+          )
+        )
+        .join('\n\n')
