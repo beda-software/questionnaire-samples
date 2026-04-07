@@ -11,8 +11,6 @@ url: "http://example.org/fhir/Questionnaire/extract-vital-signs"
 meta:
   profile:
     - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
-mapping:
-  - reference: Mapping/extract-vital-signs
 launchContext:
   - name:
       code: Patient
