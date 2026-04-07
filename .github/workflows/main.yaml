@@ -18,7 +18,7 @@ jobs:
       - name: Extract questionnaires
         run: bun extract.js
       - name: Switch to compiled
-        run: actions/checkout@v4
+        uses: actions/checkout@v4
         with:
           ref: compiled
       - name: Prepare commit
