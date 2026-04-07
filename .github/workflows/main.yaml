@@ -1,0 +1,17 @@
+name: Upload questionnaire
+on:
+  push:
+    branches:
+      - main
+jobs:
+  Upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - name: Build bundle
+        run: docker compose run --rm build-seeds
+      - name: Extract questionnaires
+        run: bun extract.js
+      - name: debug:
+        run: find . | grep -v git
