@@ -1,4 +1,6 @@
 name: Convert questionnaires and extract
+permissions:
+  contents: write
 on:
   push:
     branches:
@@ -15,5 +17,16 @@ jobs:
         run: docker compose run --rm build-seeds
       - name: Extract questionnaires
         run: bun extract.js
-      - name: debug
-        run: find . | grep -v git
+      - name: Switch to compiled
+        run: actions/checkout@v4
+        with:
+          ref: compiled
+      - name: Prepare commit
+        run: rm -rf bundle && mv extract bundle
+      - name: commit-push_branch-test
+        uses: dsayling/commit-branch-check-action@v0.1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Update questionnaires"
+          dest-branch: compiled
+
