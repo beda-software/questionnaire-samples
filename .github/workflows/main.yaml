@@ -13,5 +13,5 @@ jobs:
         run: docker compose run --rm build-seeds
       - name: Extract questionnaires
         run: bun extract.js
-      - name: debug:
+      - name: debug
         run: find . | grep -v git
