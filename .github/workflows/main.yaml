@@ -23,10 +23,10 @@ jobs:
           ref: compiled
       - name: Prepare commit
         run: rm -rf bundle && mv extract bundle
-      - name: commit-push_branch-test
-        uses: dsayling/commit-branch-check-action@v0.1
+      - name: commit and push
+        uses: EndBug/add-and-commit@v10
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "Update questionnaires"
-          dest-branch: compiled
-
+          add: ./bundle
+          author_name: Github actions
+          author_email: ilya+githubactions@beda.software
+          push: true
