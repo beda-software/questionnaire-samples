@@ -9,6 +9,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
+      - name: Prepare
+        run: mkdir ./extract
       - name: Build bundle
         run: docker compose run --rm build-seeds
       - name: Extract questionnaires
