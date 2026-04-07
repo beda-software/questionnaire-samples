@@ -1,0 +1,72 @@
+{
+    "resourceType": "Questionnaire",
+    "id": "item-constraint",
+    "name": "item-constraint",
+    "title": "Item Constraint",
+    "description": "Demonstrates `itemConstraint` with two fields where one field is mandatory.",
+    "status": "active",
+    "subjectType": [
+        "Patient"
+    ],
+    "url": "http://example.org/fhir/Questionnaire/item-constraint",
+    "meta": {
+        "profile": [
+            "https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire"
+        ]
+    },
+    "item": [
+        {
+            "linkId": "instructions",
+            "text": "Instructions: This form has two fields. Primary contact is mandatory. If Secondary contact is provided, it must differ from Primary contact.",
+            "type": "display"
+        },
+        {
+            "linkId": "primary-contact",
+            "text": "Primary contact",
+            "required": true,
+            "extension": [
+                {
+                    "valueString": "Enter primary contact value",
+                    "url": "http://hl7.org/fhir/StructureDefinition/entryFormat"
+                }
+            ],
+            "type": "string"
+        },
+        {
+            "linkId": "secondary-contact",
+            "text": "Secondary contact",
+            "extension": [
+                {
+                    "valueString": "Optional; must differ from primary contact",
+                    "url": "http://hl7.org/fhir/StructureDefinition/entryFormat"
+                },
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-constraint",
+                    "extension": [
+                        {
+                            "url": "key",
+                            "valueId": "secondary-not-equal-primary"
+                        },
+                        {
+                            "url": "requirements",
+                            "valueString": "Secondary contact, if present, must not duplicate primary contact"
+                        },
+                        {
+                            "url": "severity",
+                            "valueCode": "error"
+                        },
+                        {
+                            "url": "human",
+                            "valueString": "Secondary contact must be different from primary contact"
+                        },
+                        {
+                            "url": "expression",
+                            "valueString": "%QuestionnaireResponse.item.where(linkId='secondary-contact').answer.empty() or %QuestionnaireResponse.item.where(linkId='secondary-contact').answer.first() != %QuestionnaireResponse.item.where(linkId='primary-contact').answer.first()"
+                        }
+                    ]
+                }
+            ],
+            "type": "string"
+        }
+    ]
+}

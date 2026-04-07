@@ -1,0 +1,93 @@
+{
+    "resourceType": "Questionnaire",
+    "id": "repeats-true-group",
+    "name": "repeats-true-group",
+    "title": "Repeats Structure for Group",
+    "description": "Demonstrates repeatable group structure (`repeats: true`) for procedure rows.",
+    "status": "active",
+    "subjectType": [
+        "Patient"
+    ],
+    "url": "http://example.org/fhir/Questionnaire/repeats-true-group",
+    "meta": {
+        "profile": [
+            "https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire"
+        ]
+    },
+    "item": [
+        {
+            "linkId": "instructions",
+            "text": "Instructions: Add one or more procedure rows and fill date, name, result, and notes.",
+            "type": "display"
+        },
+        {
+            "linkId": "procedures",
+            "text": "Procedures",
+            "repeats": true,
+            "type": "group",
+            "item": [
+                {
+                    "linkId": "procedure-date",
+                    "text": "Date",
+                    "extension": [
+                        {
+                            "valueString": "Enter the procedure date",
+                            "url": "http://hl7.org/fhir/StructureDefinition/entryFormat"
+                        },
+                        {
+                            "valueExpression": {
+                                "language": "text/fhirpath",
+                                "expression": "iif(%context.answer.exists(), %context.answer.valueDateTime, now())"
+                            },
+                            "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-calculatedExpression"
+                        }
+                    ],
+                    "type": "date"
+                },
+                {
+                    "linkId": "procedure-name",
+                    "text": "Name",
+                    "extension": [
+                        {
+                            "valueString": "Enter the procedure name",
+                            "url": "http://hl7.org/fhir/StructureDefinition/entryFormat"
+                        }
+                    ],
+                    "type": "string"
+                },
+                {
+                    "linkId": "procedure-result",
+                    "text": "Result",
+                    "extension": [
+                        {
+                            "valueString": "Enter the procedure result",
+                            "url": "http://hl7.org/fhir/StructureDefinition/entryFormat"
+                        }
+                    ],
+                    "type": "string"
+                },
+                {
+                    "linkId": "procedure-notes",
+                    "text": "Notes",
+                    "extension": [
+                        {
+                            "valueCodeableConcept": {
+                                "coding": [
+                                    {
+                                        "code": "markdown-editor"
+                                    }
+                                ]
+                            },
+                            "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl"
+                        },
+                        {
+                            "valueString": "Enter the procedure notes",
+                            "url": "http://hl7.org/fhir/StructureDefinition/entryFormat"
+                        }
+                    ],
+                    "type": "string"
+                }
+            ]
+        }
+    ]
+}

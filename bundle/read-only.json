@@ -1,0 +1,35 @@
+{
+    "resourceType": "Questionnaire",
+    "id": "read-only",
+    "name": "read-only",
+    "title": "ReadOnly",
+    "description": "Demonstrates static read-only behavior using `readOnly: true`.",
+    "status": "active",
+    "subjectType": [
+        "Patient"
+    ],
+    "url": "http://example.org/fhir/Questionnaire/read-only",
+    "meta": {
+        "profile": [
+            "https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire"
+        ]
+    },
+    "item": [
+        {
+            "linkId": "instructions",
+            "text": "Instructions: Compare two fields below. Read-only field cannot be edited, editable field can be changed.",
+            "type": "display"
+        },
+        {
+            "linkId": "read-only-note",
+            "text": "Read-only note",
+            "readOnly": true,
+            "type": "string"
+        },
+        {
+            "linkId": "editable-note",
+            "text": "Editable note",
+            "type": "string"
+        }
+    ]
+}

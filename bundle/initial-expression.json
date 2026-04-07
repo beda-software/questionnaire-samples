@@ -1,0 +1,173 @@
+{
+    "resourceType": "Questionnaire",
+    "id": "initial-expression",
+    "name": "initial-expression",
+    "title": "InitialExpression",
+    "description": "Demonstrates `initialExpression` pre-population from launch context `Patient` (name, gender, birth date, telecom, and SSN).",
+    "status": "active",
+    "subjectType": [
+        "Patient"
+    ],
+    "url": "http://example.org/fhir/Questionnaire/initial-expression",
+    "meta": {
+        "profile": [
+            "https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire"
+        ]
+    },
+    "item": [
+        {
+            "linkId": "patientId",
+            "text": "PatientId",
+            "extension": [
+                {
+                    "valueBoolean": true,
+                    "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden"
+                },
+                {
+                    "valueExpression": {
+                        "language": "text/fhirpath",
+                        "expression": "%Patient.id"
+                    },
+                    "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression"
+                }
+            ],
+            "type": "string"
+        },
+        {
+            "linkId": "instructions",
+            "text": "Instructions: Open the form to review fields pre-populated by `initialExpression` from launch context Patient.",
+            "type": "display"
+        },
+        {
+            "linkId": "patient-name",
+            "text": "Name",
+            "readOnly": true,
+            "extension": [
+                {
+                    "valueString": "Firstname Lastname",
+                    "url": "http://hl7.org/fhir/StructureDefinition/entryFormat"
+                },
+                {
+                    "valueExpression": {
+                        "language": "text/fhirpath",
+                        "expression": "%Patient.name.given.first() & ' ' & %Patient.name.family.first()"
+                    },
+                    "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression"
+                }
+            ],
+            "type": "string"
+        },
+        {
+            "linkId": "patient-gender",
+            "text": "Gender",
+            "readOnly": true,
+            "extension": [
+                {
+                    "valueString": "Female/Male/Other",
+                    "url": "http://hl7.org/fhir/StructureDefinition/entryFormat"
+                },
+                {
+                    "valueExpression": {
+                        "language": "text/fhirpath",
+                        "expression": "%Patient.gender"
+                    },
+                    "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression"
+                }
+            ],
+            "type": "string"
+        },
+        {
+            "linkId": "patient-birth-date",
+            "text": "Date of birth",
+            "readOnly": true,
+            "extension": [
+                {
+                    "valueString": "dd/mm/yyyy",
+                    "url": "http://hl7.org/fhir/StructureDefinition/entryFormat"
+                },
+                {
+                    "valueExpression": {
+                        "language": "text/fhirpath",
+                        "expression": "%Patient.birthDate"
+                    },
+                    "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression"
+                }
+            ],
+            "type": "date"
+        },
+        {
+            "linkId": "patient-phone",
+            "text": "Phone number",
+            "readOnly": true,
+            "extension": [
+                {
+                    "valueString": "Phone number",
+                    "url": "http://hl7.org/fhir/StructureDefinition/entryFormat"
+                },
+                {
+                    "valueExpression": {
+                        "language": "text/fhirpath",
+                        "expression": "%Patient.telecom.where(system='phone').value.first()"
+                    },
+                    "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression"
+                }
+            ],
+            "type": "string"
+        },
+        {
+            "linkId": "patient-email",
+            "text": "Email",
+            "readOnly": true,
+            "extension": [
+                {
+                    "valueString": "Email address",
+                    "url": "http://hl7.org/fhir/StructureDefinition/entryFormat"
+                },
+                {
+                    "valueExpression": {
+                        "language": "text/fhirpath",
+                        "expression": "%Patient.telecom.where(system='email').value.first()"
+                    },
+                    "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression"
+                }
+            ],
+            "type": "string"
+        },
+        {
+            "linkId": "patient-ssn",
+            "text": "SSN",
+            "readOnly": true,
+            "extension": [
+                {
+                    "valueString": "SSN",
+                    "url": "http://hl7.org/fhir/StructureDefinition/entryFormat"
+                },
+                {
+                    "valueExpression": {
+                        "language": "text/fhirpath",
+                        "expression": "%Patient.identifier.where(system='http://hl7.org/fhir/sid/us-ssn').value.first()"
+                    },
+                    "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression"
+                }
+            ],
+            "type": "string"
+        }
+    ],
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-launchContext",
+            "extension": [
+                {
+                    "url": "name",
+                    "valueCoding": {
+                        "code": "Patient"
+                    }
+                },
+                {
+                    "url": "type",
+                    "valueCode": "Patient"
+                }
+            ]
+        }
+    ]
+}

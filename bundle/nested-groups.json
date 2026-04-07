@@ -1,0 +1,84 @@
+{
+    "resourceType": "Questionnaire",
+    "id": "nested-groups",
+    "name": "nested-groups",
+    "title": "Nested Questionnaire.item.item",
+    "description": "Demonstrates nested `Questionnaire.item.item` hierarchy, including a repeating subgroup.",
+    "status": "active",
+    "subjectType": [
+        "Patient"
+    ],
+    "url": "http://example.org/fhir/Questionnaire/nested-groups",
+    "meta": {
+        "profile": [
+            "https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire"
+        ]
+    },
+    "item": [
+        {
+            "linkId": "instructions",
+            "text": "Instructions: Fill the nested fields under General section, then add one or more rows under Medications to verify repeating subgroup behavior.",
+            "type": "display"
+        },
+        {
+            "linkId": "assessment-root",
+            "text": "Assessment root group",
+            "type": "group",
+            "item": [
+                {
+                    "linkId": "general-section",
+                    "text": "General section",
+                    "type": "group",
+                    "item": [
+                        {
+                            "linkId": "chief-complaint",
+                            "text": "Chief complaint",
+                            "extension": [
+                                {
+                                    "valueString": "Enter the patient's chief complaint",
+                                    "url": "http://hl7.org/fhir/StructureDefinition/entryFormat"
+                                }
+                            ],
+                            "type": "text"
+                        },
+                        {
+                            "linkId": "onset-date",
+                            "text": "Onset date",
+                            "type": "date"
+                        }
+                    ]
+                },
+                {
+                    "linkId": "medications-section",
+                    "text": "Medications (repeating subgroup)",
+                    "repeats": true,
+                    "type": "group",
+                    "item": [
+                        {
+                            "linkId": "medication-name",
+                            "text": "Medication name",
+                            "extension": [
+                                {
+                                    "valueString": "Enter the medication name",
+                                    "url": "http://hl7.org/fhir/StructureDefinition/entryFormat"
+                                }
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "linkId": "medication-dose",
+                            "text": "Dose",
+                            "extension": [
+                                {
+                                    "valueString": "Enter the medication dose",
+                                    "url": "http://hl7.org/fhir/StructureDefinition/entryFormat"
+                                }
+                            ],
+                            "type": "string"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

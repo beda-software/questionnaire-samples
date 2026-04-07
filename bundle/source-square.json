@@ -1,0 +1,95 @@
+{
+    "resourceType": "Questionnaire",
+    "id": "source-square",
+    "name": "source-square",
+    "title": "Source Square",
+    "description": "Demonstrates `sourceQueries` with a contained batch Bundle and rendering fetched Condition data into a read-only summary field.",
+    "status": "active",
+    "subjectType": [
+        "Patient"
+    ],
+    "url": "http://example.org/fhir/Questionnaire/source-square",
+    "meta": {
+        "profile": [
+            "https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire"
+        ]
+    },
+    "contained": [
+        {
+            "resourceType": "Bundle",
+            "id": "ConditionBundle",
+            "type": "batch",
+            "entry": [
+                {
+                    "request": {
+                        "method": "GET",
+                        "url": "/Condition?patient=Patient/{{ %Patient.id }}&_sort=-recorded-date&_count=200"
+                    }
+                }
+            ]
+        }
+    ],
+    "item": [
+        {
+            "linkId": "patientId",
+            "text": "PatientId",
+            "extension": [
+                {
+                    "valueBoolean": true,
+                    "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden"
+                },
+                {
+                    "valueExpression": {
+                        "language": "text/fhirpath",
+                        "expression": "%Patient.id"
+                    },
+                    "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression"
+                }
+            ],
+            "type": "string"
+        },
+        {
+            "linkId": "instructions",
+            "text": "Instructions: This form shows the source square pattern. The conditions are displayed in the Conditions field.",
+            "type": "display"
+        },
+        {
+            "linkId": "conditions-summary",
+            "text": "Conditions",
+            "readOnly": true,
+            "extension": [
+                {
+                    "valueExpression": {
+                        "language": "text/fhirpath",
+                        "expression": "%ConditionBundle.entry.resource.entry.resource .select(\n  'Name: ' &\n  iif(\n    code.coding.first().display.exists(),\n    code.coding.first().display,\n    iif(\n      code.text.exists(),\n      code.text,\n      code.coding.code.first()\n    )\n  ) &\n  '\\n' &\n  'Data: ' &\n  iif(\n    recordedDate.exists(),\n    recordedDate.toString(),\n    iif(\n      onsetDateTime.exists(),\n      onsetDateTime.toString(),\n      ''\n    )\n  )\n) .join('\\n\\n')"
+                    },
+                    "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression"
+                }
+            ],
+            "type": "text"
+        }
+    ],
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-launchContext",
+            "extension": [
+                {
+                    "url": "name",
+                    "valueCoding": {
+                        "code": "Patient"
+                    }
+                },
+                {
+                    "url": "type",
+                    "valueCode": "Patient"
+                }
+            ]
+        },
+        {
+            "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-sourceQueries",
+            "valueReference": {
+                "reference": "#ConditionBundle"
+            }
+        }
+    ]
+}

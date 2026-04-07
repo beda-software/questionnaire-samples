@@ -1,0 +1,55 @@
+{
+    "resourceType": "Questionnaire",
+    "id": "reference-answer-expression",
+    "name": "reference-answer-expression",
+    "title": "Reference with answerExpression",
+    "description": "Demonstrates `type: reference` with `answerExpression` query and `choiceColumn` display formatting.",
+    "status": "active",
+    "subjectType": [
+        "Patient"
+    ],
+    "url": "http://example.org/fhir/Questionnaire/reference-answer-expression",
+    "meta": {
+        "profile": [
+            "https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire"
+        ]
+    },
+    "item": [
+        {
+            "linkId": "instructions",
+            "text": "Instructions: Use the reference picker to select a Practitioner loaded by `answerExpression`; displayed options are formatted by `choiceColumn`.",
+            "type": "display"
+        },
+        {
+            "linkId": "attending-practitioner",
+            "text": "Attending practitioner",
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-referenceResource",
+                    "valueCode": "Practitioner"
+                },
+                {
+                    "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-choiceColumn",
+                    "extension": [
+                        {
+                            "url": "forDisplay",
+                            "valueBoolean": true
+                        },
+                        {
+                            "url": "path",
+                            "valueString": "name.given.first() + ' ' + name.family"
+                        }
+                    ]
+                },
+                {
+                    "valueExpression": {
+                        "language": "application/x-fhir-query",
+                        "expression": "Practitioner"
+                    },
+                    "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-answerExpression"
+                }
+            ],
+            "type": "reference"
+        }
+    ]
+}

@@ -1,0 +1,68 @@
+{
+    "resourceType": "Questionnaire",
+    "id": "hidden-fields",
+    "name": "hidden-fields",
+    "title": "Hidden Fields",
+    "description": "Demonstrates hidden calculated fields: visible pulse input, hidden derived severity, and visible severity summary.",
+    "status": "active",
+    "subjectType": [
+        "Patient"
+    ],
+    "url": "http://example.org/fhir/Questionnaire/hidden-fields",
+    "meta": {
+        "profile": [
+            "https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire"
+        ]
+    },
+    "item": [
+        {
+            "linkId": "instructions",
+            "text": "Instructions: Enter pulse values to test hidden calculated field behavior: below 60 -> Critical low, 60-110 -> Normal, above 110 -> High. Clear the pulse input to confirm the summary shows Severity: —.",
+            "type": "display"
+        },
+        {
+            "linkId": "pulse",
+            "text": "Pulse",
+            "extension": [
+                {
+                    "valueString": "Enter a value between 60 and 260",
+                    "url": "http://hl7.org/fhir/StructureDefinition/entryFormat"
+                }
+            ],
+            "type": "integer"
+        },
+        {
+            "linkId": "severity",
+            "text": "Derived severity",
+            "extension": [
+                {
+                    "valueBoolean": true,
+                    "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden"
+                },
+                {
+                    "valueExpression": {
+                        "language": "text/fhirpath",
+                        "expression": "iif(\n  %resource.repeat(item).where(linkId='pulse').answer.valueInteger.exists() and\n  %resource.repeat(item).where(linkId='pulse').answer.valueInteger.first() >= 1,\n  iif(\n    %resource.repeat(item).where(linkId='pulse').answer.valueInteger.first() > 110,\n    'High',\n    iif(\n      %resource.repeat(item).where(linkId='pulse').answer.valueInteger.first() < 60,\n      'Critical low',\n      'Normal'\n    )\n  ),\n  ''\n)"
+                    },
+                    "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-calculatedExpression"
+                }
+            ],
+            "type": "string"
+        },
+        {
+            "linkId": "severity-view",
+            "text": "Severity",
+            "readOnly": true,
+            "extension": [
+                {
+                    "valueExpression": {
+                        "language": "text/fhirpath",
+                        "expression": "iif(\n  %resource.repeat(item).where(linkId='pulse').answer.valueInteger.exists() and\n  %resource.repeat(item).where(linkId='pulse').answer.valueInteger.first() >= 1,\n  iif(\n    %resource.repeat(item).where(linkId='pulse').answer.valueInteger.first() > 110,\n    'High',\n    iif(\n      %resource.repeat(item).where(linkId='pulse').answer.valueInteger.first() < 60,\n      'Critical low',\n      'Normal'\n    )\n  ),\n  '—'\n)"
+                    },
+                    "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-calculatedExpression"
+                }
+            ],
+            "type": "string"
+        }
+    ]
+}

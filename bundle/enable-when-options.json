@@ -1,0 +1,224 @@
+{
+    "resourceType": "Questionnaire",
+    "id": "enable-when-options",
+    "name": "enable-when-options",
+    "title": "EnableWhen Options",
+    "description": "Demonstrates visibility rules with `enableWhen`, `enableBehavior` (`any`/`all`), `enableWhenExpression`, parent variables, and `operator: exists`.",
+    "status": "active",
+    "subjectType": [
+        "Patient"
+    ],
+    "url": "http://example.org/fhir/Questionnaire/enable-when-options",
+    "meta": {
+        "profile": [
+            "https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire"
+        ]
+    },
+    "item": [
+        {
+            "linkId": "instructions",
+            "text": "Instructions: Set Any allergies? and Follow-up visit needed? to test classic enableWhen, enableWhenExpression, and enableBehavior (any / all). Then enter any text in Chief complaint to trigger the operator: exists example.",
+            "type": "display"
+        },
+        {
+            "linkId": "has-allergy",
+            "text": "Any allergies?",
+            "type": "choice",
+            "answerOption": [
+                {
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                        "code": "N",
+                        "display": "No"
+                    }
+                },
+                {
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                        "code": "Y",
+                        "display": "Yes"
+                    }
+                }
+            ]
+        },
+        {
+            "linkId": "follow-up-needed",
+            "text": "Follow-up visit needed?",
+            "type": "choice",
+            "answerOption": [
+                {
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                        "code": "N",
+                        "display": "No"
+                    }
+                },
+                {
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                        "code": "Y",
+                        "display": "Yes"
+                    }
+                }
+            ]
+        },
+        {
+            "linkId": "allergy-details-classic",
+            "text": "Allergy details (classic enableWhen)",
+            "type": "text",
+            "enableWhen": [
+                {
+                    "question": "has-allergy",
+                    "operator": "=",
+                    "answerCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                        "code": "Y",
+                        "display": "Yes"
+                    }
+                }
+            ]
+        },
+        {
+            "linkId": "allergy-details-expression",
+            "text": "Allergy details (enableWhenExpression)",
+            "extension": [
+                {
+                    "valueExpression": {
+                        "language": "text/fhirpath",
+                        "expression": "iif(\n  %resource.repeat(item).where(linkId='has-allergy').answer.valueCoding.where(code='Y').exists(),\n  true,\n  false\n)"
+                    },
+                    "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-enableWhenExpression"
+                }
+            ],
+            "type": "text"
+        },
+        {
+            "linkId": "contact-preference-any",
+            "text": "Contact preference (shown if allergy Yes OR follow-up Yes)",
+            "type": "text",
+            "enableBehavior": "any",
+            "enableWhen": [
+                {
+                    "question": "has-allergy",
+                    "operator": "=",
+                    "answerCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                        "code": "Y",
+                        "display": "Yes"
+                    }
+                },
+                {
+                    "question": "follow-up-needed",
+                    "operator": "=",
+                    "answerCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                        "code": "Y",
+                        "display": "Yes"
+                    }
+                }
+            ]
+        },
+        {
+            "linkId": "schedule-deep-review-all",
+            "text": "Schedule deep review (only when allergy Yes AND follow-up Yes)",
+            "type": "text",
+            "enableBehavior": "all",
+            "enableWhen": [
+                {
+                    "question": "has-allergy",
+                    "operator": "=",
+                    "answerCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                        "code": "Y",
+                        "display": "Yes"
+                    }
+                },
+                {
+                    "question": "follow-up-needed",
+                    "operator": "=",
+                    "answerCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                        "code": "Y",
+                        "display": "Yes"
+                    }
+                }
+            ]
+        },
+        {
+            "linkId": "allergy-extra-group",
+            "text": "Extra allergy block (group-level enableWhen)",
+            "type": "group",
+            "enableWhen": [
+                {
+                    "question": "has-allergy",
+                    "operator": "=",
+                    "answerCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0136",
+                        "code": "Y",
+                        "display": "Yes"
+                    }
+                }
+            ],
+            "item": [
+                {
+                    "linkId": "reaction-note",
+                    "text": "Reaction / severity notes",
+                    "type": "text"
+                },
+                {
+                    "linkId": "last-episode-date",
+                    "text": "Last episode date",
+                    "type": "date"
+                }
+            ]
+        },
+        {
+            "linkId": "variable-demo-group",
+            "text": "Expression using parent variable %AllergyYes",
+            "extension": [
+                {
+                    "valueExpression": {
+                        "name": "AllergyYes",
+                        "language": "text/fhirpath",
+                        "expression": "iif(\n  %resource.repeat(item).where(linkId='has-allergy').answer.valueCoding.where(code='Y').exists(),\n  true,\n  false\n)"
+                    },
+                    "url": "http://hl7.org/fhir/StructureDefinition/variable"
+                }
+            ],
+            "type": "group",
+            "item": [
+                {
+                    "linkId": "details-with-variable",
+                    "text": "Enabled via %AllergyYes (same logic as allergy-details-expression)",
+                    "extension": [
+                        {
+                            "valueExpression": {
+                                "language": "text/fhirpath",
+                                "expression": "iif(%AllergyYes = true, true, false)"
+                            },
+                            "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-enableWhenExpression"
+                        }
+                    ],
+                    "type": "text"
+                }
+            ]
+        },
+        {
+            "linkId": "chief-complaint-free",
+            "text": "Chief complaint (Enter any text here to show the Detail field below)",
+            "type": "string"
+        },
+        {
+            "linkId": "chief-complaint-detail-exists",
+            "text": "Detail (appears after you type something above)",
+            "type": "text",
+            "enableWhen": [
+                {
+                    "question": "chief-complaint-free",
+                    "operator": "exists",
+                    "answerBoolean": true
+                }
+            ]
+        }
+    ]
+}

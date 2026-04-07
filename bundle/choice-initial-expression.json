@@ -1,0 +1,118 @@
+{
+    "resourceType": "Questionnaire",
+    "id": "choice-initial-expression",
+    "name": "choice-initial-expression",
+    "title": "Choice InitialExpression",
+    "description": "Demonstrates two choice initialization patterns:  Preferred contact type uses local `answerOption` and chooses phone/email from Patient.telecom. Preferred language uses external `answerValueSet` and initializes from Patient.communication.",
+    "status": "active",
+    "subjectType": [
+        "Patient"
+    ],
+    "url": "http://example.org/fhir/Questionnaire/choice-initial-expression",
+    "meta": {
+        "profile": [
+            "https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire"
+        ]
+    },
+    "item": [
+        {
+            "linkId": "patientId",
+            "text": "PatientId",
+            "extension": [
+                {
+                    "valueBoolean": true,
+                    "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden"
+                },
+                {
+                    "valueExpression": {
+                        "language": "text/fhirpath",
+                        "expression": "%Patient.id"
+                    },
+                    "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression"
+                }
+            ],
+            "type": "string"
+        },
+        {
+            "linkId": "instructions",
+            "text": "Instructions: This form shows two choice initialization patterns. Preferred contact type uses local `answerOption` (phone/email from Patient.telecom). Preferred language uses external `answerValueSet` (from Patient.communication).",
+            "type": "display"
+        },
+        {
+            "linkId": "answer-option-section",
+            "text": "Choice with answerOption + initialExpression",
+            "type": "group",
+            "item": [
+                {
+                    "linkId": "preferred-contact-type",
+                    "text": "Preferred contact type",
+                    "extension": [
+                        {
+                            "valueExpression": {
+                                "language": "text/fhirpath",
+                                "expression": "%Questionnaire.repeat(item).where(linkId='preferred-contact-type').answerOption.valueCoding.where(\n  code=iif(\n    %Patient.telecom.where(system='phone').exists(),\n    'phone',\n    'email'\n  )\n)"
+                            },
+                            "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression"
+                        }
+                    ],
+                    "type": "choice",
+                    "answerOption": [
+                        {
+                            "valueCoding": {
+                                "system": "http://example.org/fhir/CodeSystem/contact-type",
+                                "code": "phone",
+                                "display": "Phone"
+                            }
+                        },
+                        {
+                            "valueCoding": {
+                                "system": "http://example.org/fhir/CodeSystem/contact-type",
+                                "code": "email",
+                                "display": "Email"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "linkId": "answer-valueset-section",
+            "text": "Choice with answerValueSet + initialExpression",
+            "type": "group",
+            "item": [
+                {
+                    "linkId": "preferred-language",
+                    "text": "Preferred language",
+                    "answerValueSet": "http://hl7.org/fhir/ValueSet/all-languages",
+                    "extension": [
+                        {
+                            "valueExpression": {
+                                "language": "text/fhirpath",
+                                "expression": "%Patient.communication.where(preferred=true).language.coding"
+                            },
+                            "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression"
+                        }
+                    ],
+                    "type": "choice"
+                }
+            ]
+        }
+    ],
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-launchContext",
+            "extension": [
+                {
+                    "url": "name",
+                    "valueCoding": {
+                        "code": "Patient"
+                    }
+                },
+                {
+                    "url": "type",
+                    "valueCode": "Patient"
+                }
+            ]
+        }
+    ]
+}
