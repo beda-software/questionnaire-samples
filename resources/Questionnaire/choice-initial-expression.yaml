@@ -1,0 +1,76 @@
+resourceType: Questionnaire
+id: choice-initial-expression
+name: choice-initial-expression
+title: Choice InitialExpression
+description: >-
+  Demonstrates two choice initialization patterns: 
+  Preferred contact type uses local `answerOption` and chooses phone/email from Patient.telecom.
+  Preferred language uses external `answerValueSet` and initializes from Patient.communication.
+status: active
+subjectType:
+  - Patient
+url: "http://example.org/fhir/Questionnaire/choice-initial-expression"
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+launchContext:
+  - name:
+      code: Patient
+    type:
+      - Patient
+item:
+  - linkId: patientId
+    text: PatientId
+    type: string
+    hidden: true
+    initialExpression:
+      language: text/fhirpath
+      expression: "%Patient.id"
+
+  - linkId: instructions
+    text: >-
+      Instructions: This form shows two choice initialization patterns.
+      Preferred contact type uses local `answerOption` (phone/email from Patient.telecom).
+      Preferred language uses external `answerValueSet` (from Patient.communication).
+    type: display    
+
+  - linkId: answer-option-section
+    text: Choice with answerOption + initialExpression
+    type: group
+    item:
+      - linkId: preferred-contact-type
+        text: Preferred contact type
+        type: choice
+        answerOption:
+          - valueCoding:
+              system: "http://example.org/fhir/CodeSystem/contact-type"
+              code: phone
+              display: Phone
+          - valueCoding:
+              system: "http://example.org/fhir/CodeSystem/contact-type"
+              code: email
+              display: Email
+        initialExpression:
+          language: text/fhirpath
+          # `%qitem` may be unavailable in some backend evaluators; use `%Questionnaire` to access this item's answerOption.
+          expression: >-
+            %Questionnaire.repeat(item).where(linkId='preferred-contact-type').answerOption.valueCoding.where(
+              code=iif(
+                %Patient.telecom.where(system='phone').exists(),
+                'phone',
+                'email'
+              )
+            )
+
+  - linkId: answer-valueset-section
+    text: Choice with answerValueSet + initialExpression
+    type: group
+    item:
+      - linkId: preferred-language
+        text: Preferred language
+        type: choice
+        answerValueSet: "http://hl7.org/fhir/ValueSet/all-languages"
+        initialExpression:
+          language: text/fhirpath
+          expression: >-
+            %Patient.communication.where(preferred=true).language.coding

@@ -1,0 +1,73 @@
+resourceType: Questionnaire
+id: hidden-fields
+name: hidden-fields
+title: Hidden Fields
+description: >-
+  Demonstrates hidden calculated fields: visible pulse input, hidden derived severity,
+  and visible severity summary.
+status: active
+subjectType:
+  - Patient
+url: "http://example.org/fhir/Questionnaire/hidden-fields"
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+item:
+  - linkId: instructions
+    text: >-
+      Instructions: Enter pulse values to test hidden calculated field behavior:
+      below 60 -> Critical low, 60-110 -> Normal, above 110 -> High.
+      Clear the pulse input to confirm the summary shows Severity: —.
+    type: display
+
+  - linkId: pulse
+    type: integer
+    entryFormat: "Enter a value between 60 and 260"
+    text: Pulse
+
+  - linkId: severity
+    text: Derived severity
+    type: string
+    hidden: true
+    calculatedExpression:
+      language: text/fhirpath
+      # Integer InputNumber often clears to 0, so valueInteger still "exists" and old logic showed Normal.
+      # Treat no answer or value below 1 as empty. Tiers: below 60 critical low, 60–110 normal, above 110 high.
+      expression: >-
+        iif(
+          %resource.repeat(item).where(linkId='pulse').answer.valueInteger.exists() and
+          %resource.repeat(item).where(linkId='pulse').answer.valueInteger.first() >= 1,
+          iif(
+            %resource.repeat(item).where(linkId='pulse').answer.valueInteger.first() > 110,
+            'High',
+            iif(
+              %resource.repeat(item).where(linkId='pulse').answer.valueInteger.first() < 60,
+              'Critical low',
+              'Normal'
+            )
+          ),
+          ''
+        )
+
+  - linkId: severity-view
+    text: Severity
+    type: string
+    readOnly: true
+    calculatedExpression:
+      language: text/fhirpath
+      expression: >-
+        iif(
+          %resource.repeat(item).where(linkId='pulse').answer.valueInteger.exists() and
+          %resource.repeat(item).where(linkId='pulse').answer.valueInteger.first() >= 1,
+          iif(
+            %resource.repeat(item).where(linkId='pulse').answer.valueInteger.first() > 110,
+            'High',
+            iif(
+              %resource.repeat(item).where(linkId='pulse').answer.valueInteger.first() < 60,
+              'Critical low',
+              'Normal'
+            )
+          ),
+          '—'
+        )
+

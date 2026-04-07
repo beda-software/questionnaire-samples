@@ -1,0 +1,35 @@
+resourceType: Questionnaire
+id: assemble
+name: assemble
+title: Assemble
+description: >-
+  Demonstrates modular form composition via `subQuestionnaire`.
+status: active
+subjectType:
+  - Patient
+url: "http://example.org/fhir/Questionnaire/assemble"
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+item:
+  - linkId: instructions
+    text: >-
+      Instructions: This form embeds two existing conference questionnaires via subQuestionnaire
+      (nested-groups and read-only). Resolve each canonical id to the Questionnaire resource in your environment.
+    type: display
+
+  - linkId: demo-nested-groups-group
+    text: A. Nested groups (embedded)
+    type: group
+    item:
+      - linkId: demo-nested-groups-embed
+        type: display
+        subQuestionnaire: nested-groups
+
+  - linkId: demo-read-only-group
+    text: B. Read-only (embedded)
+    type: group
+    item:
+      - linkId: demo-read-only-embed
+        type: display
+        subQuestionnaire: read-only
