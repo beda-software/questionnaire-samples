@@ -1,86 +1,100 @@
 {
-    "resourceType": "Mapping",
+    "resourceType": "Questionnaire",
     "id": "extract-vital-signs",
-    "type": "FHIRPath",
-    "body": {
-        "{% assign %}": [
-            {
-                "patientId": "{{ %QuestionnaireResponse.answers('patientId') }}"
-            },
-            {
-                "bodyTemperature": "{{ %QuestionnaireResponse.answers('body-temperature').value }}"
-            },
-            {
-                "bodyTemperatureUnit": "{{ iif(%QuestionnaireResponse.answers('body-temperature').unit.exists(), %QuestionnaireResponse.answers('body-temperature').unit, 'C') }}"
-            },
-            {
-                "bodyTemperatureCode": "{{ iif(%QuestionnaireResponse.answers('body-temperature').code.exists(), %QuestionnaireResponse.answers('body-temperature').code, 'Cel') }}"
-            },
-            {
-                "tempSeverity": "{{ %QuestionnaireResponse.answers('temp-severity-hidden') }}"
-            }
-        ],
-        "resourceType": "Bundle",
-        "type": "transaction",
-        "entry": [
-            {
-                "request": {
-                    "url": "/Observation",
-                    "method": "POST"
-                },
-                "fullUrl": "{{ 'urn:uuid:observation-body-temperature' }}",
-                "resource": {
-                    "resourceType": "Observation",
-                    "meta": {
-                        "profile": [
-                            "http://hl7.org.au/fhir/core/StructureDefinition/au-core-bodytemperature"
-                        ]
-                    },
-                    "status": "final",
-                    "category": [
-                        {
-                            "coding": [
-                                {
-                                    "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                                    "code": "vital-signs",
-                                    "display": "Vital Signs"
-                                }
-                            ]
-                        }
-                    ],
-                    "code": {
-                        "coding": [
-                            {
-                                "system": "http://loinc.org",
-                                "code": "8310-5",
-                                "display": "Body temperature"
-                            }
-                        ],
-                        "text": "Body temperature"
-                    },
-                    "subject": {
-                        "reference": "Patient/{{ %patientId }}"
-                    },
-                    "effectiveDateTime": "{{ now() }}",
-                    "valueQuantity": {
-                        "value": "{{ %bodyTemperature }}",
-                        "unit": "{{ %bodyTemperatureUnit }}",
-                        "system": "http://unitsofmeasure.org",
-                        "code": "{{ %bodyTemperatureCode }}"
-                    },
-                    "{% merge %}": [
-                        {
-                            "{% if %tempSeverity.exists() and %tempSeverity != '' %}": {
-                                "note": [
-                                    {
-                                        "text": "Derived severity: {{ %tempSeverity }}"
-                                    }
-                                ]
-                            }
-                        }
-                    ]
-                }
-            }
+    "name": "extract-vital-signs",
+    "title": "Extract Vital Signs",
+    "description": "Demonstrates vital-sign extraction for body temperature with hidden derived data used by mapping.",
+    "status": "active",
+    "subjectType": [
+        "Patient"
+    ],
+    "url": "http://example.org/fhir/Questionnaire/extract-vital-signs",
+    "meta": {
+        "profile": [
+            "https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire"
         ]
-    }
+    },
+    "item": [
+        {
+            "linkId": "patientId",
+            "text": "PatientId",
+            "extension": [
+                {
+                    "valueBoolean": true,
+                    "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden"
+                },
+                {
+                    "valueExpression": {
+                        "language": "text/fhirpath",
+                        "expression": "%Patient.id"
+                    },
+                    "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression"
+                }
+            ],
+            "type": "string"
+        },
+        {
+            "linkId": "instructions",
+            "text": "Instructions: Enter Body temperature and submit the questionnaire. The mapping creates an Observation (LOINC 8310-5, vital-signs category). Hidden calculated field temp-severity-hidden is included for extraction/mapping use.",
+            "type": "display"
+        },
+        {
+            "linkId": "body-temperature",
+            "text": "Body temperature",
+            "required": true,
+            "code": [
+                {
+                    "system": "http://loinc.org",
+                    "code": "8310-5",
+                    "display": "Body temperature"
+                }
+            ],
+            "extension": [
+                {
+                    "valueCoding": {
+                        "code": "Cel",
+                        "system": "http://unitsofmeasure.org",
+                        "display": "C"
+                    },
+                    "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-unitOption"
+                }
+            ],
+            "type": "quantity"
+        },
+        {
+            "linkId": "temp-severity-hidden",
+            "text": "Temperature severity (hidden)",
+            "extension": [
+                {
+                    "valueBoolean": true,
+                    "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden"
+                },
+                {
+                    "valueExpression": {
+                        "language": "text/fhirpath",
+                        "expression": "iif(\n  %resource.repeat(item).where(linkId='body-temperature').answer.valueQuantity.value.exists(),\n  iif(\n    %resource.repeat(item).where(linkId='body-temperature').answer.valueQuantity.value.first() >= 38,\n    'fever',\n    'normal'\n  ),\n  ''\n)"
+                    },
+                    "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-calculatedExpression"
+                }
+            ],
+            "type": "string"
+        }
+    ],
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-launchContext",
+            "extension": [
+                {
+                    "url": "name",
+                    "valueCoding": {
+                        "code": "Patient"
+                    }
+                },
+                {
+                    "url": "type",
+                    "valueCode": "Patient"
+                }
+            ]
+        }
+    ]
 }
