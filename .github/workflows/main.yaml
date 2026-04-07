@@ -1,4 +1,4 @@
-name: Upload questionnaire
+name: Convert questionnaires and extract
 on:
   push:
     branches:
