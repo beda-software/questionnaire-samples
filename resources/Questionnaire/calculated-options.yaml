@@ -1,0 +1,109 @@
+resourceType: Questionnaire
+id: calculated-options
+name: calculated-options
+title: Calculated options
+status: active
+url: "http://example.org/fhir/Questionnaire/calculated-options"
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+item:
+  - linkId: instructions
+    text: >-
+      Instructions: Enter given name and family name manually; full name and initials recalculate
+      from those fields. Enter pulse (e.g. 55, 80, 120); pulse rate band (calculated choice) and
+      is-tachycardia (calculated boolean) update from pulse input.
+    type: display    
+
+  - linkId: calculated-section
+    text: CalculatedExpression examples (different answer types)
+    type: group
+    item:
+      - linkId: given-name
+        text: Given name
+        type: string
+        entryFormat: Enter given name
+
+      - linkId: family-name
+        text: Family name
+        type: string
+        entryFormat: Enter family name
+        
+      - linkId: full-name
+        text: Full name (calculated string)
+        type: string
+        readOnly: true
+        calculatedExpression:
+          language: text/fhirpath
+          expression: >-
+            %resource.repeat(item).where(linkId='given-name').answer.valueString.first() &
+            ' ' &
+            %resource.repeat(item).where(linkId='family-name').answer.valueString.first()
+
+      - linkId: initials
+        text: Initials (calculated string)
+        type: string
+        readOnly: true
+        calculatedExpression:
+          language: text/fhirpath
+          expression: >-
+            %resource.repeat(item).where(linkId='given-name').answer.valueString.first().substring(0, 1) &
+            %resource.repeat(item).where(linkId='family-name').answer.valueString.first().substring(0, 1)
+
+      - linkId: pulse-input
+        text: Pulse input
+        type: integer
+        entryFormat: Enter pulse bpm (e.g. 55, 80, 120)
+
+      - linkId: pulse-rate-band
+        text: Pulse rate band (calculated choice)
+        type: choice
+        readOnly: true
+        answerOption:
+          - valueCoding:
+              system: "http://example.org/fhir/CodeSystem/pulse-band"
+              code: unknown
+              display: "—"
+          - valueCoding:
+              system: "http://example.org/fhir/CodeSystem/pulse-band"
+              code: low
+              display: Low (<60 bpm)
+          - valueCoding:
+              system: "http://example.org/fhir/CodeSystem/pulse-band"
+              code: normal
+              display: Normal (60–110 bpm)
+          - valueCoding:
+              system: "http://example.org/fhir/CodeSystem/pulse-band"
+              code: high
+              display: High (>110 bpm)
+        calculatedExpression:
+          language: text/fhirpath
+          expression: >-
+            iif(
+              %resource.repeat(item).where(linkId='pulse-input').answer.valueInteger.exists(),
+              %qitem.answerOption.valueCoding.where(
+                code = iif(
+                  %resource.repeat(item).where(linkId='pulse-input').answer.valueInteger.first() < 60,
+                  'low',
+                  iif(
+                    %resource.repeat(item).where(linkId='pulse-input').answer.valueInteger.first() > 110,
+                    'high',
+                    'normal'
+                  )
+                )
+              ).first(),
+              %qitem.answerOption.valueCoding.where(code='unknown').first()
+            )
+
+      - linkId: is-tachycardia
+        text: Tachycardia (> 110) (calculated boolean)
+        type: boolean
+        readOnly: true
+        calculatedExpression:
+          language: text/fhirpath
+          expression: >-
+            iif(
+              %resource.repeat(item).where(linkId='pulse-input').answer.valueInteger.exists(),
+              %resource.repeat(item).where(linkId='pulse-input').answer.valueInteger.first() > 110,
+              false
+            )

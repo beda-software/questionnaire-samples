@@ -1,0 +1,80 @@
+resourceType: Questionnaire
+id: score-calculation
+name: score-calculation
+title: Score Calculation
+status: active
+url: "http://example.org/fhir/Questionnaire/score-calculation"
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+item:
+  - linkId: instructions
+    text: >-
+      Instructions: Select pain and nausea intensity values.
+      Total score (0–4) is the sum of the two selected weights (each item weight is 0–2).
+    type: display
+
+  - linkId: pain-intensity
+    text: Pain intensity  
+    type: choice
+    answerOption:
+      - valueCoding:
+          system: "http://example.org/fhir/CodeSystem/score"
+          code: "0"
+          display: No pain
+          extension:
+            - url: "http://hl7.org/fhir/StructureDefinition/ordinalValue"
+              valueDecimal: 0
+      - valueCoding:
+          system: "http://example.org/fhir/CodeSystem/score"
+          code: "1"
+          display: Mild pain
+          extension:
+            - url: "http://hl7.org/fhir/StructureDefinition/itemWeight"
+              valueDecimal: 1
+      - valueCoding:
+          system: "http://example.org/fhir/CodeSystem/score"
+          code: "2"
+          display: Moderate pain
+          extension:
+            - url: "http://hl7.org/fhir/StructureDefinition/itemWeight"
+              valueDecimal: 2
+
+  - linkId: nausea-intensity
+    text: Nausea intensity  
+    type: choice
+    answerOption:
+      - valueCoding:
+          system: "http://example.org/fhir/CodeSystem/score"
+          code: "0"
+          display: None
+          extension:
+            - url: "http://hl7.org/fhir/StructureDefinition/itemWeight"
+              valueDecimal: 0
+      - valueCoding:
+          system: "http://example.org/fhir/CodeSystem/score"
+          code: "1"
+          display: Mild
+          extension:
+            - url: "http://hl7.org/fhir/StructureDefinition/itemWeight"
+              valueDecimal: 1
+      - valueCoding:
+          system: "http://example.org/fhir/CodeSystem/score"
+          code: "2"
+          display: Severe
+          extension:
+            - url: "http://hl7.org/fhir/StructureDefinition/itemWeight"
+              valueDecimal: 2
+              
+  - linkId: total-score
+    text: Total score (0–4)
+    type: decimal
+    readOnly: true
+    calculatedExpression:
+      language: text/fhirpath
+      expression: >-
+        %resource.repeat(item)
+          .answer.valueCoding.extension
+          .where(url='http://hl7.org/fhir/StructureDefinition/itemWeight')
+          .valueDecimal
+          .sum()

@@ -1,0 +1,33 @@
+resourceType: Questionnaire
+id: initial
+name: initial
+title: Initial
+status: active
+url: "http://example.org/fhir/Questionnaire/initial"
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+item:
+  - linkId: instructions
+    text: >-
+      Instructions: Open the form and review static defaults populated from
+      Questionnaire.item.initial (without initialExpression).
+    type: display
+
+  - linkId: consent
+    text: Consent received
+    type: boolean
+    initial:
+      - valueBoolean: false
+
+  - linkId: visit-date
+    text: Visit date (example static initial)
+    type: date
+    initial:
+      - valueDate: "2026-01-01"
+
+  - linkId: triage-note
+    text: Triage note
+    type: string
+    initial:
+      - valueString: "Awaiting triage"
