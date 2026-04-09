@@ -2,11 +2,7 @@ resourceType: Questionnaire
 id: read-only
 name: read-only
 title: ReadOnly
-description: >-
-  Demonstrates static read-only behavior using `readOnly: true`.
 status: active
-subjectType:
-  - Patient
 url: "http://example.org/fhir/Questionnaire/read-only"
 meta:
   profile:
@@ -26,5 +22,3 @@ item:
   - linkId: editable-note
     text: Editable note
     type: string
-
-

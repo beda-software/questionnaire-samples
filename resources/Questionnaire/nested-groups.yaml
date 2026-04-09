@@ -2,11 +2,7 @@ resourceType: Questionnaire
 id: nested-groups
 name: nested-groups
 title: Nested Questionnaire.item.item
-description: >-
-  Demonstrates nested `Questionnaire.item.item` hierarchy, including a repeating subgroup.
 status: active
-subjectType:
-  - Patient
 url: "http://example.org/fhir/Questionnaire/nested-groups"
 meta:
   profile:

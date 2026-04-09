@@ -2,13 +2,7 @@ resourceType: Questionnaire
 id: choice-initial-expression
 name: choice-initial-expression
 title: Choice InitialExpression
-description: >-
-  Demonstrates two choice initialization patterns: 
-  Preferred contact type uses local `answerOption` and chooses phone/email from Patient.telecom.
-  Preferred language uses external `answerValueSet` and initializes from Patient.communication.
 status: active
-subjectType:
-  - Patient
 url: "http://example.org/fhir/Questionnaire/choice-initial-expression"
 meta:
   profile:
