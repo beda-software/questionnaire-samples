@@ -1,0 +1,31 @@
+{
+    "resourceType": "Questionnaire",
+    "id": "item",
+    "name": "item",
+    "title": "Questionnaire.item",
+    "status": "active",
+    "url": "http://example.org/fhir/Questionnaire/item",
+    "meta": {
+        "profile": [
+            "https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire"
+        ]
+    },
+    "item": [
+        {
+            "linkId": "instructions",
+            "text": "Instructions: This file demonstrates the minimal top-level item structure.",
+            "type": "display"
+        },
+        {
+            "linkId": "subjective",
+            "text": "Subjective",
+            "extension": [
+                {
+                    "valueString": "Enter the subjective",
+                    "url": "http://hl7.org/fhir/StructureDefinition/entryFormat"
+                }
+            ],
+            "type": "string"
+        }
+    ]
+}

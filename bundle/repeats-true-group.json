@@ -3,11 +3,7 @@
     "id": "repeats-true-group",
     "name": "repeats-true-group",
     "title": "Repeats Structure for Group",
-    "description": "Demonstrates repeatable group structure (`repeats: true`) for procedure rows.",
     "status": "active",
-    "subjectType": [
-        "Patient"
-    ],
     "url": "http://example.org/fhir/Questionnaire/repeats-true-group",
     "meta": {
         "profile": [
@@ -29,19 +25,6 @@
                 {
                     "linkId": "procedure-date",
                     "text": "Date",
-                    "extension": [
-                        {
-                            "valueString": "Enter the procedure date",
-                            "url": "http://hl7.org/fhir/StructureDefinition/entryFormat"
-                        },
-                        {
-                            "valueExpression": {
-                                "language": "text/fhirpath",
-                                "expression": "iif(%context.answer.exists(), %context.answer.valueDateTime, now())"
-                            },
-                            "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-calculatedExpression"
-                        }
-                    ],
                     "type": "date"
                 },
                 {
@@ -71,21 +54,11 @@
                     "text": "Notes",
                     "extension": [
                         {
-                            "valueCodeableConcept": {
-                                "coding": [
-                                    {
-                                        "code": "markdown-editor"
-                                    }
-                                ]
-                            },
-                            "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl"
-                        },
-                        {
                             "valueString": "Enter the procedure notes",
                             "url": "http://hl7.org/fhir/StructureDefinition/entryFormat"
                         }
                     ],
-                    "type": "string"
+                    "type": "text"
                 }
             ]
         }

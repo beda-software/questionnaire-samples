@@ -3,11 +3,7 @@
     "id": "assemble",
     "name": "assemble",
     "title": "Assemble",
-    "description": "Demonstrates modular form composition via `subQuestionnaire`.",
     "status": "active",
-    "subjectType": [
-        "Patient"
-    ],
     "url": "http://example.org/fhir/Questionnaire/assemble",
     "meta": {
         "profile": [
@@ -17,19 +13,19 @@
     "item": [
         {
             "linkId": "instructions",
-            "text": "Instructions: This form embeds two existing conference questionnaires via subQuestionnaire (nested-groups and read-only). Resolve each canonical id to the Questionnaire resource in your environment.",
+            "text": "Instructions: This form embeds short conference questionnaires via subQuestionnaire (required, repeats). Resolve each canonical id to the Questionnaire resource in your environment.",
             "type": "display"
         },
         {
-            "linkId": "demo-nested-groups-group",
-            "text": "A. Nested groups (embedded)",
+            "linkId": "required-group",
+            "text": "A. Required (embedded)",
             "type": "group",
             "item": [
                 {
-                    "linkId": "demo-nested-groups-embed",
+                    "linkId": "required-embed",
                     "extension": [
                         {
-                            "valueCanonical": "nested-groups",
+                            "valueCanonical": "required",
                             "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-subQuestionnaire"
                         }
                     ],
@@ -38,15 +34,15 @@
             ]
         },
         {
-            "linkId": "demo-read-only-group",
-            "text": "B. Read-only (embedded)",
+            "linkId": "repeats-group",
+            "text": "B. Repeats (embedded)",
             "type": "group",
             "item": [
                 {
-                    "linkId": "demo-read-only-embed",
+                    "linkId": "repeats-embed",
                     "extension": [
                         {
-                            "valueCanonical": "read-only",
+                            "valueCanonical": "repeats",
                             "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-subQuestionnaire"
                         }
                     ],

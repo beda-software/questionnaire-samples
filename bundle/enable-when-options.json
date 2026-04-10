@@ -3,11 +3,7 @@
     "id": "enable-when-options",
     "name": "enable-when-options",
     "title": "EnableWhen Options",
-    "description": "Demonstrates visibility rules with `enableWhen`, `enableBehavior` (`any`/`all`), `enableWhenExpression`, parent variables, and `operator: exists`.",
     "status": "active",
-    "subjectType": [
-        "Patient"
-    ],
     "url": "http://example.org/fhir/Questionnaire/enable-when-options",
     "meta": {
         "profile": [
@@ -173,7 +169,7 @@
             ]
         },
         {
-            "linkId": "variable-demo-group",
+            "linkId": "variable-group",
             "text": "Expression using parent variable %AllergyYes",
             "extension": [
                 {

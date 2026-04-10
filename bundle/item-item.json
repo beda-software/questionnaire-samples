@@ -1,0 +1,39 @@
+{
+    "resourceType": "Questionnaire",
+    "id": "item-item",
+    "name": "item-item",
+    "title": "Questionnaire.item.item",
+    "status": "active",
+    "url": "http://example.org/fhir/Questionnaire/item-item",
+    "meta": {
+        "profile": [
+            "https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire"
+        ]
+    },
+    "item": [
+        {
+            "linkId": "instructions",
+            "text": "Instructions: Add one or more Sports groups and fill the Sport field. This demonstrates nested item.item in a repeating group.",
+            "type": "display"
+        },
+        {
+            "linkId": "sports",
+            "text": "Sports",
+            "repeats": true,
+            "type": "group",
+            "item": [
+                {
+                    "linkId": "sport",
+                    "text": "Please list the sports you most like to take part in",
+                    "extension": [
+                        {
+                            "valueString": "Enter the sport",
+                            "url": "http://hl7.org/fhir/StructureDefinition/entryFormat"
+                        }
+                    ],
+                    "type": "string"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,125 @@
+{
+    "resourceType": "Questionnaire",
+    "id": "item-control",
+    "name": "item-control",
+    "title": "itemControl (HL7 specification examples)",
+    "status": "active",
+    "url": "http://example.org/fhir/Questionnaire/item-control",
+    "meta": {
+        "profile": [
+            "https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire"
+        ]
+    },
+    "item": [
+        {
+            "linkId": "note",
+            "text": "Demonstrates check-box, radio-button, and gtable.",
+            "type": "display"
+        },
+        {
+            "linkId": "symptoms-checkbox",
+            "text": "Select current symptoms (check-box)",
+            "repeats": true,
+            "extension": [
+                {
+                    "valueCodeableConcept": {
+                        "coding": [
+                            {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "check-box",
+                                "display": "Check-box"
+                            }
+                        ]
+                    },
+                    "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl"
+                }
+            ],
+            "type": "choice",
+            "answerOption": [
+                {
+                    "valueCoding": {
+                        "code": "cough",
+                        "display": "Cough"
+                    }
+                },
+                {
+                    "valueCoding": {
+                        "code": "fever",
+                        "display": "Fever"
+                    }
+                },
+                {
+                    "valueCoding": {
+                        "code": "fatigue",
+                        "display": "Fatigue"
+                    }
+                }
+            ]
+        },
+        {
+            "linkId": "consent-radio",
+            "text": "Do you consent to treatment? (radio-button)",
+            "extension": [
+                {
+                    "valueCodeableConcept": {
+                        "coding": [
+                            {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "radio-button",
+                                "display": "Radio Button"
+                            }
+                        ]
+                    },
+                    "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl"
+                }
+            ],
+            "type": "choice",
+            "answerOption": [
+                {
+                    "valueCoding": {
+                        "code": "yes",
+                        "display": "Yes"
+                    }
+                },
+                {
+                    "valueCoding": {
+                        "code": "no",
+                        "display": "No"
+                    }
+                }
+            ]
+        },
+        {
+            "linkId": "repeated-observations-gtable",
+            "text": "Repeated observations (gtable)",
+            "repeats": true,
+            "extension": [
+                {
+                    "valueCodeableConcept": {
+                        "coding": [
+                            {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "gtable",
+                                "display": "Group Table"
+                            }
+                        ]
+                    },
+                    "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl"
+                }
+            ],
+            "type": "group",
+            "item": [
+                {
+                    "linkId": "obs-date",
+                    "text": "Observation date",
+                    "type": "date"
+                },
+                {
+                    "linkId": "obs-pain",
+                    "text": "Pain score",
+                    "type": "integer"
+                }
+            ]
+        }
+    ]
+}

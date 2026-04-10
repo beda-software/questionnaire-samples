@@ -3,11 +3,7 @@
     "id": "item-constraint",
     "name": "item-constraint",
     "title": "Item Constraint",
-    "description": "Demonstrates `itemConstraint` with two fields where one field is mandatory.",
     "status": "active",
-    "subjectType": [
-        "Patient"
-    ],
     "url": "http://example.org/fhir/Questionnaire/item-constraint",
     "meta": {
         "profile": [

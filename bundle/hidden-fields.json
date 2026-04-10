@@ -3,11 +3,7 @@
     "id": "hidden-fields",
     "name": "hidden-fields",
     "title": "Hidden Fields",
-    "description": "Demonstrates hidden calculated fields: visible pulse input, hidden derived severity, and visible severity summary.",
     "status": "active",
-    "subjectType": [
-        "Patient"
-    ],
     "url": "http://example.org/fhir/Questionnaire/hidden-fields",
     "meta": {
         "profile": [

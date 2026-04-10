@@ -1,0 +1,67 @@
+{
+    "resourceType": "Questionnaire",
+    "id": "launch-context",
+    "name": "launch-context",
+    "title": "Launch Context",
+    "status": "active",
+    "url": "http://example.org/fhir/Questionnaire/launch-context",
+    "meta": {
+        "profile": [
+            "https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire"
+        ]
+    },
+    "item": [
+        {
+            "linkId": "instructions",
+            "text": "Instructions: Open this form in Patient context. Patient ID and full name are prefilled from %Patient launch context.",
+            "type": "display"
+        },
+        {
+            "linkId": "patient-id",
+            "text": "Patient ID from launchContext",
+            "readOnly": true,
+            "extension": [
+                {
+                    "valueExpression": {
+                        "language": "text/fhirpath",
+                        "expression": "%Patient.id"
+                    },
+                    "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression"
+                }
+            ],
+            "type": "string"
+        },
+        {
+            "linkId": "patient-name",
+            "text": "Patient name from launchContext",
+            "readOnly": true,
+            "extension": [
+                {
+                    "valueExpression": {
+                        "language": "text/fhirpath",
+                        "expression": "%Patient.name.first().given.first() + ' ' + %Patient.name.first().family"
+                    },
+                    "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression"
+                }
+            ],
+            "type": "string"
+        }
+    ],
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-launchContext",
+            "extension": [
+                {
+                    "url": "name",
+                    "valueCoding": {
+                        "code": "Patient"
+                    }
+                },
+                {
+                    "url": "type",
+                    "valueCode": "Patient"
+                }
+            ]
+        }
+    ]
+}

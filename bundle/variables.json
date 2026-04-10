@@ -3,11 +3,7 @@
     "id": "variables",
     "name": "variables",
     "title": "Variables",
-    "description": "Demonstrates SDC `variable` on a parent group. Child items reuse `%PulseVal`, `%PulseBand`, and `%PulseDouble` in calculated and display expressions.",
     "status": "active",
-    "subjectType": [
-        "Patient"
-    ],
     "url": "http://example.org/fhir/Questionnaire/variables",
     "meta": {
         "profile": [
@@ -17,11 +13,11 @@
     "item": [
         {
             "linkId": "instructions",
-            "text": "Instructions: Enter pulse (bpm) >= 1. Summary shows band-specific guidance and doubled value; Result and Doubled mirror %PulseBand and %PulseDouble.",
+            "text": "Instructions: Enter pulse (bpm) >= 1. Result uses parent variable %PulseBand.",
             "type": "display"
         },
         {
-            "linkId": "variable-demo-group",
+            "linkId": "variable-group",
             "text": "Derived values via parent variables",
             "extension": [
                 {
@@ -37,14 +33,6 @@
                         "name": "PulseBand",
                         "language": "text/fhirpath",
                         "expression": "iif(\n  %PulseVal.exists() and %PulseVal >= 1,\n  iif(\n    %PulseVal > 110,\n    'High',\n    iif(%PulseVal < 60, 'Critical low', 'Normal')\n  ),\n  ''\n)"
-                    },
-                    "url": "http://hl7.org/fhir/StructureDefinition/variable"
-                },
-                {
-                    "valueExpression": {
-                        "name": "PulseDouble",
-                        "language": "text/fhirpath",
-                        "expression": "iif(%PulseVal.exists() and %PulseVal >= 1, %PulseVal * 2, 0)"
                     },
                     "url": "http://hl7.org/fhir/StructureDefinition/variable"
                 }
@@ -63,20 +51,6 @@
                     "type": "integer"
                 },
                 {
-                    "linkId": "variables-summary",
-                    "text": "Banded guidance",
-                    "extension": [
-                        {
-                            "valueExpression": {
-                                "language": "text/fhirpath",
-                                "expression": "iif(\n  %PulseVal.exists() and %PulseVal >= 1,\n  iif(\n    %PulseVal > 110,\n    'Elevated pulse. Initiate appropriate clinical care. Inform the midwife / nurse in charge if escalation is required. Doubled value: ' & ((%PulseVal * 2).toString()),\n    iif(\n      %PulseVal < 60,\n      'Low pulse. Repeat observations as indicated. Consult promptly with the midwife / nurse in charge to determine if further review is needed. Doubled value: ' & ((%PulseVal * 2).toString()),\n      'Pulse within range. Continue routine monitoring. Band: Normal. Doubled value: ' & ((%PulseVal * 2).toString()) & '.'\n    )\n  ),\n  'No pulse entered. Enter a pulse (bpm) of 1 or greater to display guidance.'\n)"
-                            },
-                            "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-calculatedExpression"
-                        }
-                    ],
-                    "type": "text"
-                },
-                {
                     "linkId": "band-echo",
                     "text": "Result (PulseBand)",
                     "readOnly": true,
@@ -85,21 +59,6 @@
                             "valueExpression": {
                                 "language": "text/fhirpath",
                                 "expression": "%PulseBand"
-                            },
-                            "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-calculatedExpression"
-                        }
-                    ],
-                    "type": "string"
-                },
-                {
-                    "linkId": "double-echo",
-                    "text": "Doubled (PulseDouble variable)",
-                    "readOnly": true,
-                    "extension": [
-                        {
-                            "valueExpression": {
-                                "language": "text/fhirpath",
-                                "expression": "iif(%PulseVal.exists() and %PulseVal >= 1, (%PulseVal * 2).toString(), '')"
                             },
                             "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-calculatedExpression"
                         }

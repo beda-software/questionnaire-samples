@@ -1,0 +1,36 @@
+{
+    "resourceType": "Questionnaire",
+    "id": "answer-valueset",
+    "name": "answer-valueset",
+    "title": "Questionnaire.item.answerValueSet",
+    "status": "active",
+    "url": "http://example.org/fhir/Questionnaire/answer-valueset",
+    "meta": {
+        "profile": [
+            "https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire"
+        ]
+    },
+    "item": [
+        {
+            "linkId": "instructions",
+            "text": "Instructions: Open the choice field and verify values are loaded from answerValueSet.",
+            "type": "display"
+        },
+        {
+            "linkId": "condition-code",
+            "text": "Condition",
+            "answerValueSet": "http://hl7.org/fhir/ValueSet/condition-code",
+            "extension": [
+                {
+                    "valueUrl": "https://tx.ontoserver.csiro.au/fhir",
+                    "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-preferredTerminologyServer"
+                },
+                {
+                    "valueUrl": "https://tx.ontoserver.csiro.au/fhir",
+                    "url": "http://hl7.org/fhir/StructureDefinition/preferredTerminologyServer"
+                }
+            ],
+            "type": "choice"
+        }
+    ]
+}
