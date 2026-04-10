@@ -2,11 +2,7 @@ resourceType: Questionnaire
 id: extract-vital-signs
 name: extract-vital-signs
 title: Extract Vital Signs
-description: >-
-  Demonstrates vital-sign extraction for body temperature with hidden derived data used by mapping.
 status: active
-subjectType:
-  - Patient
 url: "http://example.org/fhir/Questionnaire/extract-vital-signs"
 meta:
   profile:

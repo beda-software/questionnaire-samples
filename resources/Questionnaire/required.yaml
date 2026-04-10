@@ -1,0 +1,29 @@
+resourceType: Questionnaire
+id: required
+name: required
+title: Questionnaire.item.required
+status: active
+url: "http://example.org/fhir/Questionnaire/required"
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+item:
+  - linkId: instructions
+    text: >-
+      Instructions: Try to submit the form without selecting Reaction.
+      The question should be treated as mandatory.
+    type: display
+
+  - linkId: reaction
+    text: Reaction
+    type: choice
+    required: true
+    answerOption:
+      - valueCoding:
+          code: "422587007"
+          system: "http://snomed.info/sct"
+          display: Nausea
+      - valueCoding:
+          code: "422400008"
+          system: "http://snomed.info/sct"
+          display: Vomiting

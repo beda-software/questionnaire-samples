@@ -1,0 +1,29 @@
+resourceType: Questionnaire
+id: repeats
+name: repeats
+title: Questionnaire.item.repeats
+status: active
+url: "http://example.org/fhir/Questionnaire/repeats"
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+item:
+  - linkId: instructions
+    text: >-
+      Instructions: Select one or multiple Reaction values.
+      This item allows multiple answers because repeats is true.
+    type: display
+
+  - linkId: reaction
+    text: Reaction
+    type: choice
+    repeats: true
+    answerOption:
+      - valueCoding:
+          code: "422587007"
+          system: "http://snomed.info/sct"
+          display: Nausea
+      - valueCoding:
+          code: "422400008"
+          system: "http://snomed.info/sct"
+          display: Vomiting

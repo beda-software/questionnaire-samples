@@ -2,11 +2,7 @@ resourceType: Questionnaire
 id: reference-answer-expression
 name: reference-answer-expression
 title: Reference with answerExpression
-description: >-
-  Demonstrates `type: reference` with `answerExpression` query and `choiceColumn` display formatting.
 status: active
-subjectType:
-  - Patient
 url: "http://example.org/fhir/Questionnaire/reference-answer-expression"
 meta:
   profile:
@@ -15,7 +11,7 @@ item:
   - linkId: instructions
     text: >-
       Instructions: Use the reference picker to select a Practitioner loaded by
-      `answerExpression`; displayed options are formatted by `choiceColumn`.
+      answerExpression; displayed options are formatted by choiceColumn.
     type: display
 
   - linkId: attending-practitioner

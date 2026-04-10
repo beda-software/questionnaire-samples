@@ -1,0 +1,21 @@
+resourceType: Questionnaire
+id: answer-valueset
+name: answer-valueset
+title: Questionnaire.item.answerValueSet
+status: active
+url: "http://example.org/fhir/Questionnaire/answer-valueset"
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+item:
+  - linkId: instructions
+    text: >-
+      Instructions: Open the choice field and verify values are loaded from answerValueSet.
+    type: display
+
+  - linkId: condition-code
+    text: Condition
+    type: choice
+    answerValueSet: "http://hl7.org/fhir/ValueSet/condition-code"
+    preferredTerminologyServer: https://tx.ontoserver.csiro.au/fhir
+    

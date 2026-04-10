@@ -2,12 +2,7 @@ resourceType: Questionnaire
 id: enable-when-options
 name: enable-when-options
 title: EnableWhen Options
-description: >-
-  Demonstrates visibility rules with `enableWhen`, `enableBehavior` (`any`/`all`),
-  `enableWhenExpression`, parent variables, and `operator: exists`.
 status: active
-subjectType:
-  - Patient
 url: "http://example.org/fhir/Questionnaire/enable-when-options"
 meta:
   profile:
@@ -131,7 +126,7 @@ item:
         type: date
 
   # Parent variable reused in enableWhenExpression.
-  - linkId: variable-demo-group
+  - linkId: variable-group
     text: Expression using parent variable %AllergyYes
     type: group
     variable:
@@ -165,4 +160,3 @@ item:
       - question: chief-complaint-free
         operator: exists
         answerBoolean: true
-
