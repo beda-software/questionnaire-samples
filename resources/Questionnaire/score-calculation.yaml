@@ -9,7 +9,7 @@ meta:
     - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
 item:
   - linkId: score-group
-    text: Matrix
+    text: Score inputs
     type: group
     item:
       - linkId: pain-intensity
@@ -23,20 +23,6 @@ item:
             extension:
               - url: "http://hl7.org/fhir/StructureDefinition/ordinalValue"
                 valueDecimal: 0
-          - valueCoding:
-              system: "http://example.org/fhir/CodeSystem/score"
-              code: "1"
-              display: Mild pain
-            extension:
-              - url: "http://hl7.org/fhir/StructureDefinition/ordinalValue"
-                valueDecimal: 1
-          - valueCoding:
-              system: "http://example.org/fhir/CodeSystem/score"
-              code: "2"
-              display: Moderate pain
-            extension:
-              - url: "http://hl7.org/fhir/StructureDefinition/ordinalValue"
-                valueDecimal: 2
 
       - linkId: nausea-intensity
         text: Nausea intensity
@@ -44,28 +30,14 @@ item:
         answerOption:
           - valueCoding:
               system: "http://example.org/fhir/CodeSystem/score"
-              code: "0"
-              display: None
-            extension:
-              - url: "http://hl7.org/fhir/StructureDefinition/ordinalValue"
-                valueDecimal: 0
-          - valueCoding:
-              system: "http://example.org/fhir/CodeSystem/score"
               code: "1"
               display: Mild
             extension:
               - url: "http://hl7.org/fhir/StructureDefinition/ordinalValue"
                 valueDecimal: 1
-          - valueCoding:
-              system: "http://example.org/fhir/CodeSystem/score"
-              code: "2"
-              display: Severe
-            extension:
-              - url: "http://hl7.org/fhir/StructureDefinition/ordinalValue"
-                valueDecimal: 2
 
   - linkId: total-score
-    text: Total score (0–4)
+    text: Total score (0–1)
     type: decimal
     readOnly: true
     variable:
@@ -77,10 +49,10 @@ item:
         expression: "%resource.item.where(linkId='score-group').item.where(linkId='nausea-intensity').answer.valueCoding.code.first()"
       - name: painScore
         language: text/fhirpath
-        expression: "iif(%painCode='2', 2, iif(%painCode='1', 1, iif(%painCode='0', 0, {})))"
+        expression: "iif(%painCode='0', 0, {})"
       - name: nauseaScore
         language: text/fhirpath
-        expression: "iif(%nauseaCode='2', 2, iif(%nauseaCode='1', 1, iif(%nauseaCode='0', 0, {})))"
+        expression: "iif(%nauseaCode='1', 1, {})"
       - name: any_questions_answered
         language: text/fhirpath
         expression: "%painScore.exists() or %nauseaScore.exists()"
