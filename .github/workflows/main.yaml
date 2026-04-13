@@ -1,0 +1,34 @@
+name: Convert questionnaires and extract
+permissions:
+  contents: write
+on:
+  push:
+    branches:
+      - main
+jobs:
+  Upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - name: Prepare
+        run: mkdir ./extract
+      - name: Build bundle
+        run: docker compose run --rm build-seeds
+      - name: Extract questionnaires
+        run: bun extract.js
+      - name: Save extracted filed
+        run: mkdir -p /tmp/extract && cp ./extract/* /tmp/extract
+      - name: Switch to compiled
+        uses: actions/checkout@v4
+        with:
+          ref: compiled
+      - name: Prepare commit
+        run: rm -rf bundle && mv /tmp/extract bundle
+      - name: commit and push
+        uses: EndBug/add-and-commit@v10
+        with:
+          add: ./bundle
+          author_name: Github actions
+          author_email: ilya+githubactions@beda.software
+          push: true

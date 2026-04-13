@@ -2,12 +2,7 @@ resourceType: Questionnaire
 id: initial-expression
 name: initial-expression
 title: InitialExpression
-description: >-
-  Demonstrates `initialExpression` pre-population from launch context `Patient`
-  (name, gender, birth date, telecom, and SSN).
 status: active
-subjectType:
-  - Patient
 url: "http://example.org/fhir/Questionnaire/initial-expression"
 meta:
   profile:

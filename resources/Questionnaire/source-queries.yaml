@@ -1,14 +1,9 @@
 resourceType: Questionnaire
-id: source-square
-name: source-square
-title: Source Square
-description: >-
-  Demonstrates `sourceQueries` with a contained batch Bundle and rendering fetched Condition data
-  into a read-only summary field.
+id: source-queries
+name: source-queries
+title: Source Queries
 status: active
-subjectType:
-  - Patient
-url: "http://example.org/fhir/Questionnaire/source-square"
+url: "http://example.org/fhir/Questionnaire/source-queries"
 meta:
   profile:
     - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
