@@ -19,14 +19,8 @@ item:
     hidden: true
     initialExpression:
       language: text/fhirpath
-      expression: "%Patient.id"
+      expression: "%Patient.id.first()"
 
-  - linkId: instructions
-    text: >-
-      Instructions: Open the form to review fields pre-populated by
-      `initialExpression` from launch context Patient.
-    type: display
-      
   - linkId: patient-name
     text: Name
     type: string

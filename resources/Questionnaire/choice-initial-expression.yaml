@@ -19,14 +19,7 @@ item:
     hidden: true
     initialExpression:
       language: text/fhirpath
-      expression: "%Patient.id"
-
-  - linkId: instructions
-    text: >-
-      Instructions: This form shows two choice initialization patterns.
-      Preferred contact type uses local `answerOption` (phone/email from Patient.telecom).
-      Preferred language uses external `answerValueSet` (from Patient.communication).
-    type: display    
+      expression: "%Patient.id.first()"    
 
   - linkId: answer-option-section
     text: Choice with answerOption + initialExpression
@@ -46,7 +39,6 @@ item:
               display: Email
         initialExpression:
           language: text/fhirpath
-          # `%qitem` may be unavailable in some backend evaluators; use `%Questionnaire` to access this item's answerOption.
           expression: >-
             %Questionnaire.repeat(item).where(linkId='preferred-contact-type').answerOption.valueCoding.where(
               code=iif(
