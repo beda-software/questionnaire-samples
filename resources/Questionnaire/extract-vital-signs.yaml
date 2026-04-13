@@ -19,14 +19,7 @@ item:
     hidden: true
     initialExpression:
       language: text/fhirpath
-      expression: "%Patient.id"
-
-  - linkId: instructions
-    text: >-
-      Instructions: Enter Body temperature and submit the questionnaire.
-      The mapping creates an Observation (LOINC 8310-5, vital-signs category).
-      Hidden calculated field temp-severity-hidden is included for extraction/mapping use.
-    type: display
+      expression: "%Patient.id.first()"
 
   - linkId: body-temperature
     text: Body temperature
