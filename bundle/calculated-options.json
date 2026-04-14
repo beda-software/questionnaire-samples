@@ -1,0 +1,74 @@
+{
+    "resourceType": "Questionnaire",
+    "id": "calculated-options",
+    "name": "calculated-options",
+    "title": "Calculated options",
+    "status": "active",
+    "url": "http://example.org/fhir/Questionnaire/calculated-options",
+    "meta": {
+        "profile": [
+            "https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire"
+        ]
+    },
+    "item": [
+        {
+            "linkId": "calculated-section",
+            "text": "CalculatedExpression examples (different answer types)",
+            "type": "group",
+            "item": [
+                {
+                    "linkId": "given-name",
+                    "text": "Given name",
+                    "extension": [
+                        {
+                            "valueString": "Enter given name",
+                            "url": "http://hl7.org/fhir/StructureDefinition/entryFormat"
+                        }
+                    ],
+                    "type": "string"
+                },
+                {
+                    "linkId": "family-name",
+                    "text": "Family name",
+                    "extension": [
+                        {
+                            "valueString": "Enter family name",
+                            "url": "http://hl7.org/fhir/StructureDefinition/entryFormat"
+                        }
+                    ],
+                    "type": "string"
+                },
+                {
+                    "linkId": "full-name",
+                    "text": "Full name (calculated string)",
+                    "readOnly": true,
+                    "extension": [
+                        {
+                            "valueExpression": {
+                                "language": "text/fhirpath",
+                                "expression": "%resource.repeat(item).where(linkId='given-name').answer.valueString.first() & ' ' & %resource.repeat(item).where(linkId='family-name').answer.valueString.first()"
+                            },
+                            "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-calculatedExpression"
+                        }
+                    ],
+                    "type": "string"
+                },
+                {
+                    "linkId": "names-complete",
+                    "text": "Both name fields answered (calculated boolean)",
+                    "readOnly": true,
+                    "extension": [
+                        {
+                            "valueExpression": {
+                                "language": "text/fhirpath",
+                                "expression": "iif(\n  %resource.repeat(item).where(linkId='given-name').answer.valueString.exists() and\n  %resource.repeat(item).where(linkId='family-name').answer.valueString.exists(),\n  true,\n  false\n)"
+                            },
+                            "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-calculatedExpression"
+                        }
+                    ],
+                    "type": "boolean"
+                }
+            ]
+        }
+    ]
+}
