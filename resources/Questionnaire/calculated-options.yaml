@@ -1,0 +1,48 @@
+resourceType: Questionnaire
+id: calculated-options
+name: calculated-options
+title: Calculated options
+status: active
+url: "http://example.org/fhir/Questionnaire/calculated-options"
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+item:  
+  - linkId: calculated-section
+    text: CalculatedExpression examples (different answer types)
+    type: group
+    item:
+      - linkId: given-name
+        text: Given name
+        type: string
+        entryFormat: Enter given name
+
+      - linkId: family-name
+        text: Family name
+        type: string
+        entryFormat: Enter family name
+        
+      - linkId: full-name
+        text: Full name (calculated string)
+        type: string
+        readOnly: true
+        calculatedExpression:
+          language: text/fhirpath
+          expression: >-
+            %resource.repeat(item).where(linkId='given-name').answer.valueString.first() &
+            ' ' &
+            %resource.repeat(item).where(linkId='family-name').answer.valueString.first()
+
+      - linkId: names-complete
+        text: Both name fields answered (calculated boolean)
+        type: boolean
+        readOnly: true
+        calculatedExpression:
+          language: text/fhirpath
+          expression: >-
+            iif(
+              %resource.repeat(item).where(linkId='given-name').answer.valueString.exists() and
+              %resource.repeat(item).where(linkId='family-name').answer.valueString.exists(),
+              true,
+              false
+            )
