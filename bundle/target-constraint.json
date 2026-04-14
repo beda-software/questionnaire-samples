@@ -1,21 +1,16 @@
 {
     "resourceType": "Questionnaire",
-    "id": "item-constraint",
-    "name": "item-constraint",
-    "title": "Item Constraint",
+    "id": "target-constraint",
+    "name": "target-constraint",
+    "title": "Target Constraint",
     "status": "active",
-    "url": "http://example.org/fhir/Questionnaire/item-constraint",
+    "url": "http://example.org/fhir/Questionnaire/target-constraint",
     "meta": {
         "profile": [
             "https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire"
         ]
     },
     "item": [
-        {
-            "linkId": "instructions",
-            "text": "Instructions: This form has two fields. Primary contact is mandatory. If Secondary contact is provided, it must differ from Primary contact.",
-            "type": "display"
-        },
         {
             "linkId": "primary-contact",
             "text": "Primary contact",
@@ -33,11 +28,7 @@
             "text": "Secondary contact",
             "extension": [
                 {
-                    "valueString": "Optional; must differ from primary contact",
-                    "url": "http://hl7.org/fhir/StructureDefinition/entryFormat"
-                },
-                {
-                    "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-constraint",
+                    "url": "http://hl7.org/fhir/StructureDefinition/targetConstraint",
                     "extension": [
                         {
                             "url": "key",
@@ -57,9 +48,13 @@
                         },
                         {
                             "url": "expression",
-                            "valueString": "%QuestionnaireResponse.item.where(linkId='secondary-contact').answer.empty() or %QuestionnaireResponse.item.where(linkId='secondary-contact').answer.first() != %QuestionnaireResponse.item.where(linkId='primary-contact').answer.first()"
+                            "valueString": "%resource.item.where(linkId='secondary-contact').answer.empty() or %resource.item.where(linkId='secondary-contact').answer.first() != %resource.item.where(linkId='primary-contact').answer.first()"
                         }
                     ]
+                },
+                {
+                    "valueString": "Optional; must differ from primary contact",
+                    "url": "http://hl7.org/fhir/StructureDefinition/entryFormat"
                 }
             ],
             "type": "string"
