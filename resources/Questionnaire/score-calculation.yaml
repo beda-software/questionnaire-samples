@@ -1,0 +1,62 @@
+resourceType: Questionnaire
+id: score-calculation
+name: score-calculation
+title: Score Calculation
+status: active
+url: "http://example.org/fhir/Questionnaire/score-calculation"
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+item:
+  - linkId: score-group
+    text: Score inputs
+    type: group
+    item:
+      - linkId: pain-intensity
+        text: Pain intensity
+        type: choice
+        answerOption:
+          - valueCoding:
+              system: "http://example.org/fhir/CodeSystem/score"
+              code: "0"
+              display: No pain
+            extension:
+              - url: "http://hl7.org/fhir/StructureDefinition/ordinalValue"
+                valueDecimal: 0
+
+      - linkId: nausea-intensity
+        text: Nausea intensity
+        type: choice
+        answerOption:
+          - valueCoding:
+              system: "http://example.org/fhir/CodeSystem/score"
+              code: "1"
+              display: Mild
+            extension:
+              - url: "http://hl7.org/fhir/StructureDefinition/ordinalValue"
+                valueDecimal: 1
+
+  - linkId: total-score
+    text: Total score (0–1)
+    type: decimal
+    readOnly: true
+    variable:
+      - name: painCode
+        language: text/fhirpath
+        expression: "%resource.item.where(linkId='score-group').item.where(linkId='pain-intensity').answer.valueCoding.code.first()"
+      - name: nauseaCode
+        language: text/fhirpath
+        expression: "%resource.item.where(linkId='score-group').item.where(linkId='nausea-intensity').answer.valueCoding.code.first()"
+      - name: painScore
+        language: text/fhirpath
+        expression: "iif(%painCode='0', 0, {})"
+      - name: nauseaScore
+        language: text/fhirpath
+        expression: "iif(%nauseaCode='1', 1, {})"
+      - name: any_questions_answered
+        language: text/fhirpath
+        expression: "%painScore.exists() or %nauseaScore.exists()"
+    calculatedExpression:
+      language: text/fhirpath
+      expression: >-
+        iif(%any_questions_answered, iif(%painScore.exists(), %painScore, 0) + iif(%nauseaScore.exists(), %nauseaScore, 0), {})
