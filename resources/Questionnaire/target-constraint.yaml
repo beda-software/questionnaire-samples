@@ -1,0 +1,36 @@
+resourceType: Questionnaire
+id: target-constraint
+name: target-constraint
+title: Target Constraint
+status: active
+url: "http://example.org/fhir/Questionnaire/target-constraint"
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+item:
+  - linkId: primary-contact
+    text: Primary contact
+    type: string
+    required: true
+    entryFormat: Enter primary contact value
+
+  - linkId: secondary-contact
+    text: Secondary contact
+    type: string
+    entryFormat: Optional; must differ from primary contact
+    extension:
+      - url: http://hl7.org/fhir/StructureDefinition/targetConstraint
+        extension:
+          - url: key
+            valueId: secondary-not-equal-primary
+          - url: requirements
+            valueString: Secondary contact, if present, must not duplicate primary contact
+          - url: severity
+            valueCode: error
+          - url: human
+            valueString: Secondary contact must be different from primary contact
+          - url: expression
+            valueString: >-
+              %resource.item.where(linkId='secondary-contact').answer.empty() or
+              %resource.item.where(linkId='secondary-contact').answer.first() !=
+              %resource.item.where(linkId='primary-contact').answer.first()
