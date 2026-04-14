@@ -25,7 +25,7 @@ item:
     readOnly: true
     initialExpression:
       language: text/fhirpath
-      expression: "%Patient.id"
+      expression: "%Patient.id.first()"
 
   - linkId: patient-name
     text: Patient name from launchContext
