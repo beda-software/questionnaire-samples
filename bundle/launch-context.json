@@ -24,7 +24,7 @@
                 {
                     "valueExpression": {
                         "language": "text/fhirpath",
-                        "expression": "%Patient.id"
+                        "expression": "%Patient.id.first()"
                     },
                     "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression"
                 }

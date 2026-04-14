@@ -37,17 +37,12 @@
                 {
                     "valueExpression": {
                         "language": "text/fhirpath",
-                        "expression": "%Patient.id"
+                        "expression": "%Patient.id.first()"
                     },
                     "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression"
                 }
             ],
             "type": "string"
-        },
-        {
-            "linkId": "instructions",
-            "text": "Instructions: This form shows the source square pattern. The conditions are displayed in the Conditions field.",
-            "type": "display"
         },
         {
             "linkId": "conditions-summary",
@@ -57,7 +52,7 @@
                 {
                     "valueExpression": {
                         "language": "text/fhirpath",
-                        "expression": "%ConditionBundle.entry.resource.entry.resource .select(\n  'Name: ' &\n  iif(\n    code.coding.first().display.exists(),\n    code.coding.first().display,\n    iif(\n      code.text.exists(),\n      code.text,\n      code.coding.code.first()\n    )\n  ) &\n  '\\n' &\n  'Data: ' &\n  iif(\n    recordedDate.exists(),\n    recordedDate.toString(),\n    iif(\n      onsetDateTime.exists(),\n      onsetDateTime.toString(),\n      ''\n    )\n  )\n) .join('\\n\\n')"
+                        "expression": "%ConditionBundle.entry.resource.entry.resource .select(\n  'Name: ' & (code.coding.first().display | code.text).first()\n) .join('\\n')"
                     },
                     "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression"
                 }
