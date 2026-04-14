@@ -20,12 +20,6 @@ item:
     initialExpression:
       language: text/fhirpath
       expression: "%Patient.id"
-
-  - linkId: instructions
-    text: >-
-      Instructions: Open the form to review fields pre-populated by
-      `initialExpression` from launch context Patient.
-    type: display
       
   - linkId: patient-name
     text: Name
@@ -35,48 +29,3 @@ item:
     initialExpression:
       language: text/fhirpath
       expression: "%Patient.name.given.first() & ' ' & %Patient.name.family.first()"
-
-  - linkId: patient-gender
-    text: Gender
-    type: string
-    readOnly: true
-    entryFormat: Female/Male/Other
-    initialExpression:
-      language: text/fhirpath
-      expression: "%Patient.gender"
-
-  - linkId: patient-birth-date
-    text: Date of birth
-    type: date
-    readOnly: true
-    entryFormat: dd/mm/yyyy
-    initialExpression:
-      language: text/fhirpath
-      expression: "%Patient.birthDate"
-
-  - linkId: patient-phone
-    text: Phone number
-    type: string
-    readOnly: true
-    entryFormat: Phone number
-    initialExpression:
-      language: text/fhirpath
-      expression: "%Patient.telecom.where(system='phone').value.first()"
-
-  - linkId: patient-email
-    text: Email
-    type: string
-    readOnly: true
-    entryFormat: Email address
-    initialExpression:
-      language: text/fhirpath
-      expression: "%Patient.telecom.where(system='email').value.first()"
-
-  - linkId: patient-ssn
-    text: SSN
-    type: string
-    readOnly: true
-    entryFormat: SSN
-    initialExpression:
-      language: text/fhirpath
-      expression: "%Patient.identifier.where(system='http://hl7.org/fhir/sid/us-ssn').value.first()"
