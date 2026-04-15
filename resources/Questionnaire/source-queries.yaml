@@ -23,14 +23,6 @@ contained:
           method: GET
           url: /Condition?patient=Patient/{{ %Patient.id }}&_sort=-recorded-date&_count=200
 item:
-  - linkId: patientId
-    text: PatientId
-    type: string
-    hidden: true
-    initialExpression:
-      language: text/fhirpath
-      expression: "%Patient.id.first()"
-
   - linkId: conditions-summary
     text: Conditions
     type: text
