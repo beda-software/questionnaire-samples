@@ -8,12 +8,6 @@ meta:
   profile:
     - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
 item:
-  - linkId: instructions
-    text: >-
-      Instructions: This file demonstrates the minimal top-level item structure.
-    type: display
-
   - linkId: subjective
     text: Subjective
     type: string
-    entryFormat: Enter the subjective

@@ -8,12 +8,6 @@ meta:
   profile:
     - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
 item:
-  - linkId: instructions
-    text: >-
-      Instructions: Fill the nested fields under General section, then add one or more
-      rows under Medications to verify repeating subgroup behavior.
-    type: display
-
   - linkId: assessment-root
     text: Assessment root group
     type: group
@@ -25,7 +19,7 @@ item:
           - linkId: chief-complaint
             text: Chief complaint
             type: text
-            entryFormat: Enter the patient's chief complaint
+
           - linkId: onset-date
             text: Onset date
             type: date
@@ -38,8 +32,7 @@ item:
           - linkId: medication-name
             text: Medication name
             type: string
-            entryFormat: Enter the medication name
+
           - linkId: medication-dose
             text: Dose
             type: string
-            entryFormat: Enter the medication dose

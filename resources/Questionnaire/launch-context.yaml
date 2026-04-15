@@ -13,12 +13,6 @@ launchContext:
     type:
       - Patient
 item:
-  - linkId: instructions
-    text: >-
-      Instructions: Open this form in Patient context.
-      Patient ID and full name are prefilled from %Patient launch context.
-    type: display
-
   - linkId: patient-id
     text: Patient ID from launchContext
     type: string

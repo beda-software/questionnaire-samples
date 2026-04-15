@@ -8,12 +8,6 @@ meta:
   profile:
     - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
 item:
-  - linkId: instructions
-    text: >-
-      Instructions: Use the reference picker to select a Practitioner loaded by
-      answerExpression; displayed options are formatted by choiceColumn.
-    type: display
-
   - linkId: attending-practitioner
     text: Attending practitioner
     type: reference

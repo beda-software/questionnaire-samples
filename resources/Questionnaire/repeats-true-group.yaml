@@ -8,11 +8,6 @@ meta:
   profile:
     - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
 item:
-  - linkId: instructions
-    text: >-
-      Instructions: Add one or more procedure rows and fill date, name, result, and notes.
-    type: display
-      
   - linkId: procedures
     text: Procedures
     type: group
@@ -25,14 +20,11 @@ item:
       - linkId: procedure-name
         text: Name
         type: string
-        entryFormat: Enter the procedure name
 
       - linkId: procedure-result
         text: Result
         type: string
-        entryFormat: Enter the procedure result
 
       - linkId: procedure-notes
         text: Notes
         type: text
-        entryFormat: Enter the procedure notes

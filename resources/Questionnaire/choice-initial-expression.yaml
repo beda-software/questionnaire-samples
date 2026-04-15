@@ -19,7 +19,7 @@ item:
     hidden: true
     initialExpression:
       language: text/fhirpath
-      expression: "%Patient.id.first()"    
+      expression: "%Patient.id.first()"
 
   - linkId: answer-option-section
     text: Choice with answerOption + initialExpression

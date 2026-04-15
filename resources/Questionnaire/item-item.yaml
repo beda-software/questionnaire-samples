@@ -8,12 +8,6 @@ meta:
   profile:
     - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
 item:
-  - linkId: instructions
-    text: >-
-      Instructions: Add one or more Sports groups and fill the Sport field.
-      This demonstrates nested item.item in a repeating group.
-    type: display
-
   - linkId: sports
     text: Sports
     type: group
@@ -22,4 +16,3 @@ item:
       - linkId: sport
         text: Please list the sports you most like to take part in
         type: string
-        entryFormat: Enter the sport

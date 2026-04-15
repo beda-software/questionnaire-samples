@@ -8,12 +8,6 @@ meta:
   profile:
     - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
 item:
-  - linkId: instructions
-    text: >-
-      Instructions: This form embeds short conference questionnaires via subQuestionnaire
-      (required, repeats). Resolve each canonical id to the Questionnaire resource in your environment.
-    type: display
-
   - linkId: required-group
     text: A. Required (embedded)
     type: group

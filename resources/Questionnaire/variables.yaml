@@ -8,12 +8,6 @@ meta:
   profile:
     - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
 item:
-  - linkId: instructions
-    text: >-
-      Instructions: Enter pulse (bpm) >= 1.
-      Result uses parent variable %PulseBand.
-    type: display
-
   - linkId: variable-group
     text: Derived values via parent variables
     type: group

@@ -66,4 +66,3 @@ item:
       - linkId: obs-pain
         text: Pain score
         type: integer
-

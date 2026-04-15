@@ -8,12 +8,6 @@ meta:
   profile:
     - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
 item:
-  - linkId: instructions
-    text: >-
-      Instructions: Compare two fields below.
-      Read-only field cannot be edited, editable field can be changed.
-    type: display
-
   - linkId: read-only-note
     text: Read-only note
     type: string

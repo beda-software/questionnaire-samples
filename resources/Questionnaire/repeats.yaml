@@ -8,12 +8,6 @@ meta:
   profile:
     - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
 item:
-  - linkId: instructions
-    text: >-
-      Instructions: Select one or multiple Reaction values.
-      This item allows multiple answers because repeats is true.
-    type: display
-
   - linkId: reaction
     text: Reaction
     type: choice

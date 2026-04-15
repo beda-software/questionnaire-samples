@@ -15,12 +15,10 @@ item:
       - linkId: given-name
         text: Given name
         type: string
-        entryFormat: Enter given name
 
       - linkId: family-name
         text: Family name
         type: string
-        entryFormat: Enter family name
         
       - linkId: full-name
         text: Full name (calculated string)

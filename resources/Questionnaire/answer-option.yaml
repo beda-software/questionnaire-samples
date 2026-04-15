@@ -8,11 +8,6 @@ meta:
   profile:
     - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
 item:
-  - linkId: instructions
-    text: >-
-      Instructions: Select one or more Reaction options from predefined answerOption values.
-    type: display
-
   - linkId: reaction
     text: Reaction
     type: choice
