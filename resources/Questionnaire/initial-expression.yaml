@@ -17,7 +17,6 @@ item:
     text: Name
     type: string
     readOnly: true
-    entryFormat: Firstname Lastname
     initialExpression:
       language: text/fhirpath
       expression: "%Patient.name.given.first() & ' ' & %Patient.name.family.first()"
