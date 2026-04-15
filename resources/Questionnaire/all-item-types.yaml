@@ -8,6 +8,11 @@ meta:
   profile:
     - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
 item:
+  - linkId: display-example
+    text: >-
+      Routine check-up and symptom assessment.
+    type: display
+
   - linkId: bool-example
     text: Smoker status (boolean)
     type: boolean
@@ -22,7 +27,7 @@ item:
 
   - linkId: quantity-example
     text: Weight measurement (quantity)
-    type: quantity    
+    type: quantity
 
   - linkId: date-example
     text: Symptom onset date (date)
