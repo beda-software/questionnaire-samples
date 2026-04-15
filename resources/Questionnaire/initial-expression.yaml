@@ -13,13 +13,6 @@ launchContext:
     type:
       - Patient
 item:
-  - linkId: patientId
-    text: PatientId
-    type: string
-    hidden: true
-    initialExpression:
-      language: text/fhirpath
-      expression: "%Patient.id.first()"
   - linkId: patient-name
     text: Name
     type: string
