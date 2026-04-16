@@ -1,0 +1,65 @@
+resourceType: Questionnaire
+id: all-item-types
+name: all-item-types
+title: All QuestionItem types
+status: active
+url: "http://example.org/fhir/Questionnaire/all-item-types"
+meta:
+  profile:
+    - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
+item:
+  - linkId: display-example
+    text: >-
+      Routine check-up and symptom assessment.
+    type: display
+
+  - linkId: bool-example
+    text: Smoker status (boolean)
+    type: boolean
+
+  - linkId: decimal-example
+    text: Body temperature (decimal)
+    type: decimal
+
+  - linkId: integer-example
+    text: Heart rate (integer)
+    type: integer
+
+  - linkId: quantity-example
+    text: Weight measurement (quantity)
+    type: quantity
+
+  - linkId: date-example
+    text: Symptom onset date (date)
+    type: date
+
+  - linkId: date-time-example
+    text: Admission timestamp (dateTime)
+    type: dateTime
+
+  - linkId: time-example
+    text: Medication time (time)
+    type: time
+
+  - linkId: string-example
+    text: Chief complaint (string)
+    type: string
+
+  - linkId: text-example
+    text: Clinical notes (text)
+    type: text
+
+  - linkId: choice-example
+    text: Pain severity (choice)
+    type: choice
+    answerOption:
+      - valueCoding:
+          code: mild
+          display: Mild
+      - valueCoding:
+          code: severe
+          display: Severe
+
+  - linkId: attachment-example
+    text: Supporting document (attachment)
+    type: attachment
