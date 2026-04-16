@@ -33,6 +33,32 @@
                                     "valueDecimal": 0
                                 }
                             ]
+                        },
+                        {
+                            "valueCoding": {
+                                "system": "http://example.org/fhir/CodeSystem/score",
+                                "code": "1",
+                                "display": "Mild pain"
+                            },
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/ordinalValue",
+                                    "valueDecimal": 1
+                                }
+                            ]
+                        },
+                        {
+                            "valueCoding": {
+                                "system": "http://example.org/fhir/CodeSystem/score",
+                                "code": "2",
+                                "display": "Moderate pain"
+                            },
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/ordinalValue",
+                                    "valueDecimal": 2
+                                }
+                            ]
                         }
                     ]
                 },
@@ -41,6 +67,19 @@
                     "text": "Nausea intensity",
                     "type": "choice",
                     "answerOption": [
+                        {
+                            "valueCoding": {
+                                "system": "http://example.org/fhir/CodeSystem/score",
+                                "code": "0",
+                                "display": "None"
+                            },
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/ordinalValue",
+                                    "valueDecimal": 0
+                                }
+                            ]
+                        },
                         {
                             "valueCoding": {
                                 "system": "http://example.org/fhir/CodeSystem/score",
@@ -53,6 +92,19 @@
                                     "valueDecimal": 1
                                 }
                             ]
+                        },
+                        {
+                            "valueCoding": {
+                                "system": "http://example.org/fhir/CodeSystem/score",
+                                "code": "2",
+                                "display": "Severe"
+                            },
+                            "extension": [
+                                {
+                                    "url": "http://hl7.org/fhir/StructureDefinition/ordinalValue",
+                                    "valueDecimal": 2
+                                }
+                            ]
                         }
                     ]
                 }
@@ -60,7 +112,7 @@
         },
         {
             "linkId": "total-score",
-            "text": "Total score (0–1)",
+            "text": "Total score (0–4)",
             "readOnly": true,
             "extension": [
                 {
@@ -90,7 +142,7 @@
                     "valueExpression": {
                         "name": "painScore",
                         "language": "text/fhirpath",
-                        "expression": "iif(%painCode='0', 0, {})"
+                        "expression": "iif(%painCode='2', 2, iif(%painCode='1', 1, iif(%painCode='0', 0, {})))"
                     },
                     "url": "http://hl7.org/fhir/StructureDefinition/variable"
                 },
@@ -98,7 +150,7 @@
                     "valueExpression": {
                         "name": "nauseaScore",
                         "language": "text/fhirpath",
-                        "expression": "iif(%nauseaCode='1', 1, {})"
+                        "expression": "iif(%nauseaCode='2', 2, iif(%nauseaCode='1', 1, iif(%nauseaCode='0', 0, {})))"
                     },
                     "url": "http://hl7.org/fhir/StructureDefinition/variable"
                 },
