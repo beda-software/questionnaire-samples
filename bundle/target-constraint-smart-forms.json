@@ -1,0 +1,60 @@
+{
+    "resourceType": "Questionnaire",
+    "id": "target-constraint-smart-forms",
+    "name": "target-constraint-smart-forms",
+    "title": "Target Constraint (Smart Forms)",
+    "status": "active",
+    "url": "http://example.org/fhir/Questionnaire/target-constraint-smart-forms",
+    "meta": {
+        "profile": [
+            "https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/targetConstraint",
+            "extension": [
+                {
+                    "url": "key",
+                    "valueId": "bp-constraint"
+                },
+                {
+                    "url": "severity",
+                    "valueCode": "warning"
+                },
+                {
+                    "url": "expression",
+                    "valueExpression": {
+                        "language": "text/fhirpath",
+                        "expression": "%resource.item.where(linkId='systolic-blood-pressure').answer.value < %resource.item.where(linkId='diastolic-blood-pressure').answer.value"
+                    }
+                },
+                {
+                    "url": "human",
+                    "valueString": "Systolic blood pressure should not be less than diastolic blood pressure."
+                },
+                {
+                    "url": "location",
+                    "valueString": "Questionnaire.item.where(linkId='systolic-blood-pressure')"
+                }
+            ]
+        }
+    ],
+    "item": [
+        {
+            "linkId": "target-constraint-simple-instructions",
+            "text": "Systolic blood pressure should not be less than diastolic blood pressure.",
+            "type": "display"
+        },
+        {
+            "linkId": "systolic-blood-pressure",
+            "text": "Systolic Blood Pressure",
+            "type": "integer"
+        },
+        {
+            "linkId": "diastolic-blood-pressure",
+            "text": "Diastolic Blood Pressure",
+            "type": "integer"
+        }
+    ]
+}
