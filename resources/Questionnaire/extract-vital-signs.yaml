@@ -12,6 +12,28 @@ launchContext:
       code: Patient
     type:
       - Patient
+contained:
+  - id: 421fd51c-fe94-4a7f-ab1e-f91c2572bcb3
+    code:
+      coding:
+        - code: 8310-5
+          system: http://loinc.org
+          display: Body temperature
+    valueQuantity:
+      extension:
+        - url: >-
+            http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-templateExtractValue
+          valueString: answer.valueQuantity
+    status: final
+    subject:
+      _reference:
+        extension:
+          - url: >-
+              http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-templateExtractValue
+            valueString: >-
+              'Patient/' +
+              %resource.item.where(linkId='patientId').answer.valueString
+    resourceType: Observation
 item:
   - linkId: patientId
     text: PatientId
@@ -25,6 +47,12 @@ item:
     text: Body temperature
     type: quantity
     required: true
+    extension:
+    - url: http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-templateExtract
+      extension:
+      - url: template
+        valueReference:
+          reference: '#421fd51c-fe94-4a7f-ab1e-f91c2572bcb3'
     unitOption:
       - code: Cel
         system: http://unitsofmeasure.org
