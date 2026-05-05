@@ -9,7 +9,8 @@ meta:
     - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
 launchContext:
   - name:
-      code: Patient
+      system: http://hl7.org/fhir/uv/sdc/CodeSystem/launchContext
+      code: patient
     type:
       - Patient
 sourceQueries:
@@ -21,7 +22,7 @@ contained:
     entry:
       - request:
           method: GET
-          url: /Condition?patient=Patient/{{ %Patient.id }}&_sort=-recorded-date&_count=200
+          url: /Condition?patient=Patient/{{ %patient.id }}&_sort=-recorded-date&_count=200
 item:
   - linkId: conditions-summary
     text: Conditions
@@ -31,7 +32,5 @@ item:
       language: text/fhirpath
       expression: >-
         %ConditionBundle.entry.resource.entry.resource
-        .select(
-          'Name: ' & (code.coding.first().display | code.text).first()
-        )
+        .select('Name: ' & (code.coding.first().display | code.text).first())
         .join('\n')
