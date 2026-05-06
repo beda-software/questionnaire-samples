@@ -9,7 +9,8 @@ meta:
     - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
 launchContext:
   - name:
-      code: Patient
+      system: http://hl7.org/fhir/uv/sdc/CodeSystem/launchContext
+      code: patient
     type:
       - Patient
 item:
@@ -20,4 +21,4 @@ item:
     entryFormat: Firstname Lastname
     initialExpression:
       language: text/fhirpath
-      expression: "%Patient.name.given.first() & ' ' & %Patient.name.family.first()"
+      expression: "%patient.name.given.first() & ' ' & %patient.name.family.first()"

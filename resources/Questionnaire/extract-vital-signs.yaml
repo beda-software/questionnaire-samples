@@ -9,7 +9,8 @@ meta:
     - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
 launchContext:
   - name:
-      code: Patient
+      system: http://hl7.org/fhir/uv/sdc/CodeSystem/launchContext
+      code: patient
     type:
       - Patient
 contained:
@@ -41,7 +42,7 @@ item:
     hidden: true
     initialExpression:
       language: text/fhirpath
-      expression: "%Patient.id.first()"
+      expression: "%patient.id.first()"
 
   - linkId: body-temperature
     text: Body temperature

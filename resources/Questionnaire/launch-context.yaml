@@ -9,14 +9,15 @@ meta:
     - https://emr-core.beda.software/StructureDefinition/fhir-emr-questionnaire
 launchContext:
   - name:
-      code: Patient
+      system: http://hl7.org/fhir/uv/sdc/CodeSystem/launchContext
+      code: patient
     type:
       - Patient
 item:
   - linkId: instructions
     text: >-
       Instructions: Open this form in Patient context.
-      Patient ID and full name are prefilled from %Patient launch context.
+      Patient ID and full name are prefilled from %patient launch context.
     type: display
 
   - linkId: patient-id
@@ -25,7 +26,7 @@ item:
     readOnly: true
     initialExpression:
       language: text/fhirpath
-      expression: "%Patient.id.first()"
+      expression: "%patient.id.first()"
 
   - linkId: patient-name
     text: Patient name from launchContext
@@ -33,4 +34,4 @@ item:
     readOnly: true
     initialExpression:
       language: text/fhirpath
-      expression: "%Patient.name.first().given.first() + ' ' + %Patient.name.first().family"
+      expression: "%patient.name.first().given.first() + ' ' + %patient.name.first().family"
