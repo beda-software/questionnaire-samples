@@ -23,7 +23,7 @@
                 {
                     "valueExpression": {
                         "language": "text/fhirpath",
-                        "expression": "%Patient.name.given.first() & ' ' & %Patient.name.family.first()"
+                        "expression": "%patient.name.given.first() & ' ' & %patient.name.family.first()"
                     },
                     "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression"
                 }
@@ -38,7 +38,8 @@
                 {
                     "url": "name",
                     "valueCoding": {
-                        "code": "Patient"
+                        "system": "http://hl7.org/fhir/uv/sdc/CodeSystem/launchContext",
+                        "code": "patient"
                     }
                 },
                 {

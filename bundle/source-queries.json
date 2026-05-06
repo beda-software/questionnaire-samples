@@ -19,7 +19,7 @@
                 {
                     "request": {
                         "method": "GET",
-                        "url": "/Condition?patient=Patient/{{ %Patient.id }}&_sort=-recorded-date&_count=200"
+                        "url": "/Condition?patient=Patient/{{ %patient.id }}&_sort=-recorded-date&_count=200"
                     }
                 }
             ]
@@ -34,7 +34,7 @@
                 {
                     "valueExpression": {
                         "language": "text/fhirpath",
-                        "expression": "%ConditionBundle.entry.resource.entry.resource .select(\n  'Name: ' & (code.coding.first().display | code.text).first()\n) .join('\\n')"
+                        "expression": "%ConditionBundle.entry.resource.entry.resource .select('Name: ' & (code.coding.first().display | code.text).first()) .join('\\n')"
                     },
                     "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression"
                 }
@@ -49,7 +49,8 @@
                 {
                     "url": "name",
                     "valueCoding": {
-                        "code": "Patient"
+                        "system": "http://hl7.org/fhir/uv/sdc/CodeSystem/launchContext",
+                        "code": "patient"
                     }
                 },
                 {
